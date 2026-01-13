@@ -329,3 +329,63 @@ transform: scale(.92);
 .fab.main:active{
   transform: scale(.92);
 }
+
+/* ===== Fullscreen Modal ===== */
+.fs-modal{
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: rgba(0,0,0,.92);
+  display: none;
+}
+
+.fs-modal.open{ display: block; }
+
+.fs-topbar{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  z-index: 2;
+}
+
+.fs-spacer{ flex: 1; }
+
+.fs-btn{
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.35);
+  color: rgba(255,255,255,.95);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.fs-body{
+  position: absolute;
+  inset: 0;
+  padding-top: 70px; /* กัน topbar */
+  overflow: auto;
+
+  /* ให้ gesture ซูมทำงานดี */
+  touch-action: pan-x pan-y pinch-zoom;
+  -webkit-overflow-scrolling: touch;
+}
+
+#fsImg{
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+
+  /* ถ้าอยากให้ “เต็มกว่านี้” เปลี่ยนเป็น width: 100% ได้ */
+}
+
+/* ล็อกพื้นหลังตอนเปิด modal */
+body.modal-open{
+  overflow: hidden;
+}

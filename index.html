@@ -30,6 +30,19 @@
 
   </header>
 
+  <!-- Fullscreen Viewer Modal -->
+<div id="fsModal" class="fs-modal" aria-hidden="true">
+  <div class="fs-topbar">
+    <button id="fsClose" class="fs-btn" type="button" aria-label="Close">✕</button>
+    <div class="fs-spacer"></div>
+    <button id="fsFullscreen" class="fs-btn" type="button" aria-label="Fullscreen">⤢</button>
+  </div>
+
+  <div id="fsBody" class="fs-body">
+    <img id="fsImg" alt="Menu fullscreen" />
+  </div>
+</div>
+
   <!-- Hint -->
   <div class="hint" id="hint">ปัดขึ้น–ลง เพื่อดูเมนู</div>
 
@@ -94,6 +107,7 @@
     menu.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
   })();
 </script>
+
   <script src="app.js"></script>
 </body>
 </html>

@@ -202,3 +202,85 @@ window.addEventListener("load", () => {
     overlay.addEventListener("click", closeMenu);
     menu.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
   })();
+
+  (() => {
+  const viewer = document.getElementById("viewer");
+  const modal = document.getElementById("fsModal");
+  const fsImg = document.getElementById("fsImg");
+  const btnClose = document.getElementById("fsClose");
+  const btnFs = document.getElementById("fsFullscreen");
+  const fsBody = document.getElementById("fsBody");
+
+  if (!viewer || !modal || !fsImg || !btnClose || !btnFs || !fsBody) return;
+
+  let prevSnap = "";
+  let lastScrollTop = 0;
+
+  function openModal(src) {
+    if (!src) return;
+
+    lastScrollTop = viewer.scrollTop;
+
+    // ปิด snap กันพื้นหลังเด้ง (เผื่อมี)
+    prevSnap = viewer.style.scrollSnapType;
+    viewer.style.scrollSnapType = "none";
+
+    // ล็อกพื้นหลัง
+    document.body.classList.add("modal-open");
+
+    // ใส่รูป
+    fsImg.src = src;
+
+    // เปิด modal
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+
+    // รีเซ็ตตำแหน่งเลื่อนใน modal
+    fsBody.scrollTop = 0;
+  }
+
+  function closeModal() {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+
+    // คืน snap กลับ
+    viewer.style.scrollSnapType = prevSnap || "y mandatory";
+
+    // กลับตำแหน่งเดิม
+    viewer.scrollTop = lastScrollTop;
+  }
+
+  // เปิดเมื่อแตะรูปเมนู
+  document.addEventListener("click", (e) => {
+    const img = e.target.closest(".pageImg");
+    if (!img) return;
+    openModal(img.getAttribute("src"));
+  });
+
+  // ปิด
+  btnClose.addEventListener("click", closeModal);
+
+  // แตะพื้นหลังมืดเพื่อปิด (คลิกนอก topbar/รูป)
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // ESC ปิด
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+  });
+
+  // Fullscreen API (ถ้ารองรับ)
+  btnFs.addEventListener("click", async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await modal.requestFullscreen?.();
+      } else {
+        await document.exitFullscreen?.();
+      }
+    } catch (err) {
+      // บาง browser ไม่อนุญาต—ไม่ต้องทำอะไร
+    }
+  });
+})();

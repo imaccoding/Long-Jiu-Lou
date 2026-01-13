@@ -330,31 +330,40 @@ transform: scale(.92);
   transform: scale(.92);
 }
 
-/* ===== Fullscreen Modal ===== */
-.fs-modal{
+/* ===== Fullscreen Image Modal ===== */
+.img-modal{
   position: fixed;
   inset: 0;
   z-index: 999999;
-  background: rgba(0,0,0,.92);
+  background: rgba(0,0,0,.65);  /* ✅ ฉากหลังมืด */
   display: none;
+  padding: 20px;
 }
 
-.fs-modal.open{ display: block; }
+.img-modal.open{ display: grid; place-items: center; }
 
-.fs-topbar{
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  z-index: 2;
+.img-modal-body{
+  max-width: min(96vw, 920px);
+  max-height: 86vh;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 18px 60px rgba(0,0,0,.55);
+  background: #111;
 }
 
-.fs-spacer{ flex: 1; }
+#imgModalSrc{
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 86vh;
+  object-fit: contain; /* ✅ เห็นรูปเต็ม ไม่โดนครอป */
+  background: #111;
+}
 
-.fs-btn{
+.img-modal-close{
+  position: fixed;
+  top: 14px;
+  right: 14px;
   width: 44px;
   height: 44px;
   border-radius: 999px;
@@ -364,28 +373,22 @@ transform: scale(.92);
   font-size: 18px;
   cursor: pointer;
 }
+.pageMedia{ position: relative; width: 100%; }
 
-.fs-body{
+.fs-open{
   position: absolute;
-  inset: 0;
-  padding-top: 70px; /* กัน topbar */
-  overflow: auto;
-
-  /* ให้ gesture ซูมทำงานดี */
-  touch-action: pan-x pan-y pinch-zoom;
-  -webkit-overflow-scrolling: touch;
+  right: 10px;
+  bottom: 10px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,.55);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 3;
+  display: grid;
+  place-items: center;
 }
-
-#fsImg{
-  display: block;
-  margin: 0 auto;
-  max-width: 100%;
-  height: auto;
-
-  /* ถ้าอยากให้ “เต็มกว่านี้” เปลี่ยนเป็น width: 100% ได้ */
-}
-
-/* ล็อกพื้นหลังตอนเปิด modal */
-body.modal-open{
-  overflow: hidden;
-}
+.fs-open:active{ transform: scale(.92); }

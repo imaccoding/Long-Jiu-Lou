@@ -204,83 +204,47 @@ window.addEventListener("load", () => {
   })();
 
   (() => {
-  const viewer = document.getElementById("viewer");
-  const modal = document.getElementById("fsModal");
-  const fsImg = document.getElementById("fsImg");
-  const btnClose = document.getElementById("fsClose");
-  const btnFs = document.getElementById("fsFullscreen");
-  const fsBody = document.getElementById("fsBody");
+  const modal = document.getElementById("imgModal");
+  const modalImg = document.getElementById("imgModalSrc");
+  const btnClose = document.getElementById("imgModalClose");
 
-  if (!viewer || !modal || !fsImg || !btnClose || !btnFs || !fsBody) return;
+  if (!modal || !modalImg || !btnClose) return;
 
-  let prevSnap = "";
-  let lastScrollTop = 0;
-
-  function openModal(src) {
-    if (!src) return;
-
-    lastScrollTop = viewer.scrollTop;
-
-    // ปิด snap กันพื้นหลังเด้ง (เผื่อมี)
-    prevSnap = viewer.style.scrollSnapType;
-    viewer.style.scrollSnapType = "none";
-
-    // ล็อกพื้นหลัง
-    document.body.classList.add("modal-open");
-
-    // ใส่รูป
-    fsImg.src = src;
-
-    // เปิด modal
+  const open = (src) => {
+    modalImg.src = src;
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden"; // ✅ ล็อกพื้นหลังไม่ให้เลื่อน
+  };
 
-    // รีเซ็ตตำแหน่งเลื่อนใน modal
-    fsBody.scrollTop = 0;
-  }
-
-  function closeModal() {
+  const close = () => {
     modal.classList.remove("open");
     modal.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("modal-open");
+    modalImg.src = "";
+    document.body.style.overflow = ""; // คืนค่าเดิม
+  };
 
-    // คืน snap กลับ
-    viewer.style.scrollSnapType = prevSnap || "y mandatory";
-
-    // กลับตำแหน่งเดิม
-    viewer.scrollTop = lastScrollTop;
-  }
-
-  // เปิดเมื่อแตะรูปเมนู
+  // ✅ เปิดเมื่อกดปุ่ม ⤢ เท่านั้น
   document.addEventListener("click", (e) => {
-    const img = e.target.closest(".pageImg");
+    const btn = e.target.closest(".fs-open");
+    if (!btn) return;
+
+    const img = btn.parentElement.querySelector(".pageImg");
     if (!img) return;
-    openModal(img.getAttribute("src"));
+
+    open(img.getAttribute("src"));
   });
 
-  // ปิด
-  btnClose.addEventListener("click", closeModal);
+  // ปิดด้วยปุ่ม X
+  btnClose.addEventListener("click", close);
 
-  // แตะพื้นหลังมืดเพื่อปิด (คลิกนอก topbar/รูป)
+  // ปิดเมื่อกดพื้นหลังมืด (คลิกนอกภาพ)
   modal.addEventListener("click", (e) => {
-    if (e.target === modal) closeModal();
+    if (e.target === modal) close();
   });
 
-  // ESC ปิด
+  // ปิดด้วย ESC
   window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
-  });
-
-  // Fullscreen API (ถ้ารองรับ)
-  btnFs.addEventListener("click", async () => {
-    try {
-      if (!document.fullscreenElement) {
-        await modal.requestFullscreen?.();
-      } else {
-        await document.exitFullscreen?.();
-      }
-    } catch (err) {
-      // บาง browser ไม่อนุญาต—ไม่ต้องทำอะไร
-    }
+    if (e.key === "Escape" && modal.classList.contains("open")) close();
   });
 })();

@@ -1,3 +1,5 @@
+console.log("Announcement script loaded");
+
 (() => {
   const viewer = document.getElementById("viewer");
   const pages = Array.from(document.querySelectorAll(".page"));

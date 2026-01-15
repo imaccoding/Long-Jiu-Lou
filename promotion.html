@@ -31,13 +31,6 @@
       backdrop-filter: blur(10px);
       display:flex; align-items:center; gap:10px;
     }
-    .back{
-      border:0; cursor:pointer;
-      background: rgba(255,255,255,.08);
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 999px;
-    }
     .title{
       margin:0;
       font-size: 14px;
@@ -202,6 +195,13 @@
 }
     .actions .btnCopy{ order: 1; }
     .actions .btnShare{ order: 2; }
+
+    footer{
+      margin-top: 10px;
+      text-align:center;
+      font-size: 12px;
+      color: rgba(246,246,246,.5);
+    }
   </style>
 </head>
 
@@ -247,6 +247,11 @@
       ขณะนี้ ทางภัตตาคาร หลง จิ่ว เหลา ยังไม่มีโปรโมชัน<br>
       สอบถามข้อมูลเพิ่มเติมได้ที่: 02-757-6888 หรือ Line OA: @longjiulou
     </div>
+
+    <footer>
+    © Long Jiu Lou Chinese Restaurant
+  </footer>
+  
   </main>
 
   <div class="toast" id="toast">คัดลอกลิงก์แล้ว</div>
@@ -311,7 +316,7 @@
     clearTimeout(showToast._tm);
     showToast._tm = setTimeout(() => t.classList.remove("show"), 1200);
   }
-  
+
   // ====== helpers: hide all ======
   function hideAll() {
     $("promoCard").hidden = true;

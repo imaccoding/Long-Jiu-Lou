@@ -441,3 +441,10 @@ body.announce-open #viewer{
 body.announce-open .announce-overlay{
   touch-action: none;
 }
+
+footer{
+      margin-top: 10px;
+      text-align:center;
+      font-size: 12px;
+      color: rgba(246,246,246,.5);
+    }

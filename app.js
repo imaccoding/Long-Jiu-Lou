@@ -205,28 +205,28 @@ let prevSnap = "";
 })();
 
   (() => {
-  // CONFIG
+  // ====== CONFIG: ใส่ภาพ / กำหนดวัน และเวลา โปรโมชันทั้งหมด ======
   const ANNOUNCEMENTS = [
     {
       id: "a1",
       imageSrc: "images/pro-holi/announce-1.jpg",
       linkToFull: "promotion.html?id=a1",
       start: "2026-01-14 00:00",
-      end:   "2026-01-20 10:00",
+      end:   "2026-01-15 10:00",
     },
     {
       id: "a2",
       imageSrc: "images/pro-holi/announce-2.jpg",
       linkToFull: "promotion.html?id=a2",
       start: "2026-01-14 09:33",
-      end:   "2026-01-27 16:00",
+      end:   "2026-01-15 16:00",
     },
     {
       id: "a3",
       imageSrc: "images/pro-holi/announce-3.jpg",
       linkToFull: "promotion.html?id=a3",
       start: "2026-01-14 09:36",
-      end:   "2026-02-03 17:00",
+      end:   "2026-01-15 17:00",
     },
   ];
 
@@ -350,7 +350,11 @@ function renderList(activePromos){
 
   if (!activePromos || activePromos.length === 0) {
     // ✅ ไม่มีโปร active → โชว์ข้อความแทน
-    if (empty) empty.hidden = false;
+    if (!id) {
+  empty.hidden = false;   // เข้าแบบไม่มี id → โชว์ empty
+} else {
+  empty.hidden = true;    // มี id → ซ่อน empty
+}
     return;
   }
 
@@ -374,4 +378,12 @@ function renderList(activePromos){
     wrap.appendChild(a);
   });
 }
+
+const empty = document.getElementById("promoEmpty");
+const params = new URLSearchParams(location.search);
+const id = params.get("id");
+
+// ✅ ถ้ามี id แปลว่าเข้าหน้ารายละเอียด → อย่าโชว์ empty
+if (id && empty) empty.hidden = true;
+
 

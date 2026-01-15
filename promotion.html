@@ -7,7 +7,6 @@
   <style>
     :root{
       --bg:#0b0c10;
-      --card:#111318;
       --text:#f6f6f6;
       --muted:rgba(246,246,246,.74);
       --gold:#caa45a;
@@ -61,19 +60,20 @@
       border-radius: var(--radius);
       overflow:hidden;
       box-shadow: 0 18px 60px rgba(0,0,0,.45);
+      margin-bottom: 12px;
     }
 
     .hero{
-      width:100%;
-      display:block;
-      aspect-ratio: 16/9;
-      object-fit: cover;
-      background: #0f1117;
-    }
+  width: 100%;
+  display: block;
+  height: auto;          
+  aspect-ratio: auto;    
+  object-fit: contain;   
+  background: #0f1117;   
+}
 
-    .content{
-      padding: 14px 14px 16px;
-    }
+
+    .content{ padding: 14px 14px 16px; }
 
     .promoHeading{
       margin: 0 0 8px;
@@ -87,7 +87,7 @@
       color: var(--muted);
       line-height: 1.7;
       font-size: 14px;
-      white-space: pre-line; /* รองรับขึ้นบรรทัดใหม่ */
+      white-space: pre-line;
     }
 
     .actions{
@@ -146,100 +146,98 @@
       background: rgba(160,20,30,.18);
       color: rgba(246,246,246,.92);
     }
+
     .promoItem{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,.08);
-  background: rgba(17,19,24,.60);
-  text-decoration:none;
-  color: inherit;
-}
-
-.promoThumb{
-  width: 74px;
-  height: 74px;
-  border-radius: 14px;
-  object-fit: cover;
-  border: 1px solid rgba(255,255,255,.08);
-  background: #0f1117;
-}
-
-.promoMeta{ flex:1; min-width:0; }
-.promoName{
-  font-weight: 800;
-  letter-spacing:.2px;
-  font-size: 14px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.promoHint{
-  margin-top: 4px;
-  font-size: 12px;
-  color: rgba(246,246,246,.65);
-}
-.promoGo{
-  font-size: 22px;
-  color: rgba(202,164,90,.95);
-  padding: 0 6px;
-}
-
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(17,19,24,.60);
+      text-decoration:none;
+      color: inherit;
+    }
+    .promoThumb{
+      width: 74px;
+      height: 74px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,.08);
+      background: #0f1117;
+    }
+    .promoMeta{ flex:1; min-width:0; }
+    .promoName{
+      font-weight: 800;
+      letter-spacing:.2px;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .promoHint{
+      margin-top: 4px;
+      font-size: 12px;
+      color: rgba(246,246,246,.65);
+    }
+    .promoGo{
+      font-size: 22px;
+      color: rgba(202,164,90,.95);
+      padding: 0 6px;
+    }
   </style>
 </head>
 
 <body>
   <header class="topbar">
     <button class="back" type="button" id="btnBack">← กลับ</button>
-    <h1 class="title" id="pageTitle">PROMOTION</h1>
+    <h1 class="title" id="pageTitle">PROMOTIONS</h1>
   </header>
 
   <main class="wrap">
+    <!-- ✅ รายละเอียดโปร (เข้าแบบ ?id=...) -->
     <section class="card" id="promoCard" hidden>
       <img class="hero" id="promoImg" alt="Promotion artwork">
       <div class="content">
         <h2 class="promoHeading" id="promoTitle"></h2>
         <p class="detail" id="promoDetail"></p>
-
         <div class="actions">
           <button class="btn btnShare" id="btnShare" type="button">📤 แชร์โปรโมชัน</button>
           <button class="btn btnCopy" id="btnCopy" type="button">🔗 คัดลอกลิงก์</button>
         </div>
       </div>
-      <section class="card" id="promoList" hidden>
-  <div class="content">
-    <h2 class="promoHeading">โปรโมชันที่กำลังแสดงอยู่</h2>
-    <div id="listWrap"></div>
-  </div>
-
-</section>
-
     </section>
 
+    <!-- ✅ รายการโปร active (เข้าแบบไม่มี id) -->
+    <section class="card" id="promoList" hidden>
+      <div class="content">
+        <h2 class="promoHeading">โปรโมชันช่วงนี้</h2>
+        <div id="listWrap"></div>
+      </div>
+    </section>
+
+    <!-- ✅ empty state (ไม่มีโปร active) -->
+    <section class="card" id="promoEmpty" hidden>
+      <div class="content">
+        <h2 class="promoHeading">ยังไม่มีโปรโมชันในช่วงนี้</h2>
+        <p style="color:rgba(246,246,246,.72);line-height:1.7;margin:8px 0 0">
+          โปรโมชันจะถูกแสดงอัตโนมัติตามช่วงวันที่/เวลาที่ตั้งไว้ค่ะ
+        </p>
+      </div>
+    </section>
+
+    <!-- ✅ error state -->
     <div class="error" id="promoError" hidden>
       ขณะนี้ ทางภัตตาคาร หลง จิ่ว เหลา ยังไม่มีโปรโมชัน<br>
       สอบถามข้อมูลเพิ่มเติมได้ที่: 02-757-6888 หรือ Line OA: @longjiulou
     </div>
-
-    <section class="card" id="promoEmpty">
-    <div class="content">
-    <h2 class="promoHeading">ยังไม่มีโปรโมชันในช่วงนี้</h2>
-    <p style="color:rgba(246,246,246,.72);line-height:1.7;margin:8px 0 0">
-      โปรโมชันจะถูกแสดงอัตโนมัติตามช่วงวันที่/เวลาที่ตั้งไว้ค่ะ
-    </p>
-  </div>
-
-</section>
   </main>
 
   <div class="toast" id="toast">คัดลอกลิงก์แล้ว</div>
 
- <script>
-  // ====== CONFIG: โปรโมชันทั้งหมด ======
-  // ใส่ start/end เพื่อให้ระบบรู้ว่า "active" ช่วงไหน (เวลาไทย)
+<script>
+  // ====== CONFIG: ใส่ภาพ / กำหนดวัน และเวลา โปรโมชันทั้งหมด ======
   const PROMOTIONS = [
     {
       id: "a1",
@@ -279,16 +277,12 @@
 
   // ====== เวลาไทย ======
   function thTimeToMs(str) {
-    // "YYYY-MM-DD HH:mm" -> ISO +07:00
     return new Date(str.replace(" ", "T") + ":00+07:00").getTime();
   }
-
   function nowTHms() {
-    // ms ณ เวลาประเทศไทย (Bangkok)
     const th = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Bangkok" }));
     return th.getTime();
   }
-
   function isActive(p, nowMs) {
     const s = thTimeToMs(p.start);
     const e = thTimeToMs(p.end);
@@ -303,45 +297,74 @@
     showToast._tm = setTimeout(() => t.classList.remove("show"), 1200);
   }
 
-  // ====== UI: back ======
+  // ====== back ======
   $("btnBack").addEventListener("click", () => {
     if (history.length > 1) history.back();
     else location.href = "index.html";
   });
 
+  // ====== helpers: hide all ======
+  function hideAll() {
+    $("promoCard").hidden = true;
+    $("promoList").hidden = true;
+    $("promoEmpty").hidden = true;
+    $("promoError").hidden = true;
+  }
+
   // ====== Render: Detail ======
   function renderDetail(p){
-    $("promoList") && ($("promoList").hidden = true);
+    hideAll();
 
     $("promoCard").hidden = false;
-    $("promoError").hidden = true;
-
     $("promoImg").src = p.imageSrc;
     $("promoTitle").textContent = p.title;
     $("promoDetail").textContent = p.detail;
-
     $("pageTitle").textContent = p.title;
 
     const shareUrl = location.href;
 
     $("btnShare").onclick = async () => {
-      const data = {
-        title: p.title,
-        text: p.title,
-        url: shareUrl,
-      };
+  const shareUrl = location.href;
 
-      if (navigator.share) {
-        try { await navigator.share(data); } catch {}
-        return;
-      }
-      try {
-        await navigator.clipboard.writeText(shareUrl);
-        showToast("คัดลอกลิงก์แล้ว");
-      } catch {
-        prompt("คัดลอกลิงก์นี้:", shareUrl);
-      }
-    };
+  // ข้อมูลพื้นฐาน
+  const data = {
+    title: p.title,
+    text: p.title,
+    url: shareUrl,
+  };
+
+  // พยายามแนบรูปไปด้วย (ถ้า browser รองรับ)
+  try {
+    const res = await fetch(p.imageSrc, { cache: "no-store" });
+    const blob = await res.blob();
+
+    const ext = (p.imageSrc.split(".").pop() || "jpg").split("?")[0];
+    const file = new File([blob], `promo-${p.id}.${ext}`, { type: blob.type || "image/jpeg" });
+
+    // ตรวจว่าแชร์ไฟล์ได้ไหม
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ ...data, files: [file] });
+      return;
+    }
+  } catch (err) {
+    // ถ้าโหลดรูปไม่ได้ หรือแนบไม่ได้ จะตกไปแชร์แบบปกติ
+    console.warn("Share with image failed:", err);
+  }
+
+  // fallback: แชร์แบบปกติ (ลิงก์ + ชื่อโปร)
+  if (navigator.share) {
+    try { await navigator.share(data); } catch {}
+    return;
+  }
+
+  // fallback สุดท้าย: copy link
+  try {
+    await navigator.clipboard.writeText(shareUrl);
+    showToast("คัดลอกลิงก์แล้ว");
+  } catch {
+    prompt("คัดลอกลิงก์นี้:", shareUrl);
+  }
+};
 
     $("btnCopy").onclick = async () => {
       try {
@@ -355,30 +378,28 @@
 
   // ====== Render: List (Active only) ======
   function renderList(activePromos){
-    $("promoCard").hidden = true;
-    $("promoError").hidden = true;
+    hideAll();
+    $("pageTitle").textContent = "PROMOTIONS";
+
+    if (!activePromos || activePromos.length === 0) {
+      $("promoEmpty").hidden = false;
+      return;
+    }
 
     const list = $("promoList");
     const wrap = $("listWrap");
-    if (!list || !wrap) return;
-
-    $("pageTitle").textContent = "PROMOTIONS";
-    list.hidden = false;
-    wrap.innerHTML = "";
-
-    if (activePromos.length === 0) {
-      wrap.innerHTML = `
-        <div style="color:rgba(246,246,246,.74);line-height:1.7;font-size:14px">
-          ตอนนี้ยังไม่มีโปรโมชันที่กำลังแสดงอยู่ครับ
-        </div>`;
+    if (!list || !wrap) {
+      $("promoEmpty").hidden = false;
       return;
     }
+
+    list.hidden = false;
+    wrap.innerHTML = "";
 
     activePromos.forEach(p => {
       const a = document.createElement("a");
       a.href = `promotion.html?id=${encodeURIComponent(p.id)}`;
       a.className = "promoItem";
-
       a.innerHTML = `
         <img class="promoThumb" src="${p.imageSrc}" alt="">
         <div class="promoMeta">
@@ -387,45 +408,25 @@
         </div>
         <div class="promoGo">›</div>
       `;
-
       wrap.appendChild(a);
     });
   }
 
-  // ====== main logic ======
+  // ====== main ======
   const nowMs = nowTHms();
 
-  // ถ้ามี id -> แสดงรายละเอียดตัวนั้น (ไม่ต้องเป็น active ก็ได้ ถ้าคุณอยากบังคับ active ค่อยบอก)
   if (id) {
     const promo = PROMOTIONS.find(p => p.id === id);
     if (!promo) {
+      hideAll();
       $("promoError").hidden = false;
     } else {
       renderDetail(promo);
     }
   } else {
-    // ไม่มี id -> แสดง "โปรที่ active ตอนนี้" ตามเวลาไทย
     const activePromos = PROMOTIONS.filter(p => isActive(p, nowMs));
     renderList(activePromos);
   }
-  (() => {
-  const empty = document.getElementById("promoEmpty");
-  const list  = document.getElementById("promoList");
-  const card  = document.getElementById("promoCard");
-  const err   = document.getElementById("promoError");
-  if (!empty) return;
-
-  const params = new URLSearchParams(location.search);
-  const id = params.get("id");
-
-  // ถ้าเข้าแบบไม่มี id -> โชว์ empty (กันหน้าโล่ง)
-  if (!id) {
-    empty.hidden = false;
-    if (list) list.hidden = true;
-    if (card) card.hidden = true;
-    if (err)  err.hidden  = true;
-  }
-})();
 </script>
 
 </body>

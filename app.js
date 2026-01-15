@@ -272,8 +272,8 @@ window.addEventListener("load", () => {
   const current = activeList[0];
 
   // วันละครั้ง: ต่อประกาศ + ต่อวัน
-  const onceKey = `announceShown:${current.id}:${todayTH()}`;
-  if (localStorage.getItem(onceKey) === "1") return;
+  //const onceKey = `announceShown:${current.id}:${todayTH()}`;
+  //if (localStorage.getItem(onceKey) === "1") return;
 
   // =========================
   // Show / Close

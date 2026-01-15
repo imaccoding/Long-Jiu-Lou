@@ -232,21 +232,21 @@ window.addEventListener("load", () => {
     {
       id: "a1",
       imageSrc: "images/pro-holi/announce-1.jpg",
-      linkToFull: "images/announce-1.jpg",
+      linkToFull: "", // ใส่ลิงค์ที่ต้องการได้เลย
       start: "2026-01-15 09:20",
       end:   "2026-01-20 09:25",
     },
     {
       id: "a2",
       imageSrc: "images/pro-holi/announce-2.jpg",
-      linkToFull: "images/announce-2.jpg",
+      linkToFull: "", // ใส่ลิงค์ที่ต้องการได้เลย
       start: "2026-01-15 09:26",
       end:   "2026-01-20 09:30",
     },
     {
       id: "a3",
       imageSrc: "images/pro-holi/announce-3.jpg",
-      linkToFull: "images/announce-3.jpg",
+      linkToFull: "", // ใส่ลิงค์ที่ต้องการได้เลย
       start: "2026-01-15 09:30",
       end:   "2026-01-20 09:35",
     },

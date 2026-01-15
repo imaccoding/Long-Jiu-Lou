@@ -162,6 +162,48 @@ const viewer = document.getElementById("viewer");
 let prevViewerOverflow = "";
 let prevSnap = "";
 
+(() => {
+  const wrap = document.getElementById("contactWrap");
+  const btn = document.getElementById("contactToggle");
+  const menu = document.getElementById("contactMenu");
+  const overlay = document.getElementById("contactOverlay");
+
+  if (!wrap || !btn || !menu || !overlay) return;
+
+  const open = () => {
+    wrap.classList.add("open");
+    btn.setAttribute("aria-expanded", "true");
+    menu.setAttribute("aria-hidden", "false");
+    overlay.hidden = false;
+  };
+
+  const close = () => {
+    wrap.classList.remove("open");
+    btn.setAttribute("aria-expanded", "false");
+    menu.setAttribute("aria-hidden", "true");
+    overlay.hidden = true;
+  };
+
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    wrap.classList.contains("open") ? close() : open();
+  });
+
+  overlay.addEventListener("click", close);
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+
+  menu.querySelectorAll("a").forEach(a =>
+    a.addEventListener("click", close)
+  );
+
+  // กันเคสคลิกโดนพื้นที่ menu แล้ว event ไปปิดทับ
+  menu.addEventListener("click", (e) => e.stopPropagation());
+})();
+
   (() => {
   // CONFIG
   const ANNOUNCEMENTS = [

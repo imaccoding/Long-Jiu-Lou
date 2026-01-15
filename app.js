@@ -158,48 +158,17 @@
   menu.querySelectorAll("a").forEach(a => a.addEventListener("click", close));
 })();
 
-(function () {
-    const wrap = document.getElementById("contactWrap");
-    const btn = document.getElementById("contactToggle");
-    const menu = document.getElementById("contactMenu");
-    const overlay = document.getElementById("contactOverlay");
-
-    if (!wrap || !btn || !menu || !overlay) return;
-
-    function openMenu(){
-      wrap.classList.add("open");
-      btn.setAttribute("aria-expanded","true");
-      menu.setAttribute("aria-hidden","false");
-      overlay.hidden = false;
-    }
-    function closeMenu(){
-      wrap.classList.remove("open");
-      btn.setAttribute("aria-expanded","false");
-      menu.setAttribute("aria-hidden","true");
-      overlay.hidden = true;
-    }
-
-    btn.addEventListener("click", () => {
-      wrap.classList.contains("open") ? closeMenu() : openMenu();
-    });
-
-    overlay.addEventListener("click", closeMenu);
-    menu.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
-  })();
-
 const viewer = document.getElementById("viewer");
 let prevViewerOverflow = "";
 let prevSnap = "";
 
   (() => {
-  // =========================
-  // CONFIG: ใส่ได้หลายภาพ (เรียงตามลำดับใน array)
-  // =========================
+  // CONFIG
   const ANNOUNCEMENTS = [
     {
       id: "a1",
       imageSrc: "images/pro-holi/announce-1.jpg",
-      linkToFull: "", 
+      linkToFull: "",
       start: "2026-01-14 00:00",
       end:   "2026-01-20 10:00",
     },
@@ -219,64 +188,70 @@ let prevSnap = "";
     },
   ];
 
-  // =========================
   // Elements
-  // =========================
   const overlay = document.getElementById("announceOverlay");
-  const cardClose = document.getElementById("announceClose");
-
+  const closeBtn = document.getElementById("announceClose");
   const linkWrap = document.getElementById("announceLink");
   const imgInLink = document.getElementById("announceImgLink");
-
   const plainImg = document.getElementById("announceImg");
+  const viewer = document.getElementById("viewer");
 
-  if (!overlay || !cardClose || !imgInLink || !plainImg || !linkWrap) return;
+  if (!overlay || !closeBtn || !linkWrap || !imgInLink || !plainImg) return;
 
-  // =========================
-  // Helpers: เวลาไทย
-  // =========================
+  // Helpers
   function thTimeToMs(str) {
-    // "YYYY-MM-DD HH:mm" -> ISO +07:00
     return new Date(str.replace(" ", "T") + ":00+07:00").getTime();
-  }
-
-  function todayTH() {
-    // YYYY-MM-DD ตามเวลาไทย
-    return new Date(
-      new Date().toLocaleString("en-US", { timeZone: "Asia/Bangkok" })
-    ).toISOString().slice(0, 10);
   }
 
   const now = Date.now();
 
-  // เอารายการที่ active ตอนนี้ (เรียงตามลำดับ array)
+  // เลือกอันที่ active ตอนนี้ (ตามลำดับ array)
   const activeList = ANNOUNCEMENTS
     .map(a => ({ ...a, startMs: thTimeToMs(a.start), endMs: thTimeToMs(a.end) }))
     .filter(a => now >= a.startMs && now <= a.endMs);
 
-  if (activeList.length === 0) return;
+  if (!activeList.length) return;
 
-  // ถ้าชนกันหลายอัน ให้เอาอันแรกตามลำดับ array
   const current = activeList[0];
 
-  // วันละครั้ง: ต่อประกาศ + ต่อวัน
-  //const onceKey = `announceShown:${current.id}:${todayTH()}`;
-  //if (localStorage.getItem(onceKey) === "1") return;
+  // ===== lock / unlock scroll =====
+  let prevViewerOverflow = "";
+  let prevSnap = "";
+  let prevBodyOverflow = "";
 
-  // =========================
-  // Show / Close
-  // =========================
-  function showAnnouncement() {
+  function lockScroll() {
+    prevBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.body.classList.add("announce-open");
+
+    if (viewer) {
+      prevViewerOverflow = viewer.style.overflow;
+      prevSnap = viewer.style.scrollSnapType;
+      viewer.style.overflow = "hidden";
+      viewer.style.scrollSnapType = "none";
+    }
+  }
+
+  function unlockScroll() {
+    document.body.style.overflow = prevBodyOverflow || "";
+    document.body.classList.remove("announce-open");
+
+    if (viewer) {
+      viewer.style.overflow = prevViewerOverflow || "";
+      viewer.style.scrollSnapType = prevSnap || "";
+    }
+  }
+
+  function show() {
     // reset
     linkWrap.hidden = true;
     plainImg.hidden = true;
     imgInLink.src = "";
     plainImg.src = "";
 
-    // ถ้ารูปโหลดพัง ให้ปิดทันทีไม่ค้าง
     const onImgError = () => {
       console.warn("[Announcement] Image failed to load:", current.imageSrc);
-      closeAnnouncement(false); // ไม่ mark ว่า seen (กันหายเงียบ)
+      close(); // ปิด + ปลดล็อก (ไม่ค้าง)
     };
 
     const useLink = !!(current.linkToFull && current.linkToFull.trim());
@@ -295,49 +270,30 @@ let prevSnap = "";
 
     overlay.hidden = false;
     overlay.setAttribute("aria-hidden", "false");
-    document.body.classList.add("announce-open");
-    document.body.classList.add("announce-open");
-
-if (viewer) {
-  prevViewerOverflow = viewer.style.overflow;
-  prevSnap = viewer.style.scrollSnapType;
-  viewer.style.overflow = "hidden";
-  viewer.style.scrollSnapType = "none";
-}
-
+    lockScroll();
   }
 
-  function closeAnnouncement(markSeen = true) {
+  function close() {
     overlay.hidden = true;
     overlay.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("announce-open");
-
-    if (markSeen) localStorage.setItem(onceKey, "1");
-    document.body.classList.remove("announce-open");
-
-if (viewer) {
-  viewer.style.overflow = prevViewerOverflow || "";
-  viewer.style.scrollSnapType = prevSnap || "";
-}
-
+    unlockScroll();
+    closeBtn.blur();
   }
 
-  // ปุ่มปิด
-  cardClose.addEventListener("click", (e) => {
+  // Events
+  closeBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-    closeAnnouncement(true);
+    close();
   });
 
-  // กดพื้นหลังมืดเพื่อปิด
   overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) closeAnnouncement(true);
+    if (e.target === overlay) close();
   });
 
-  // ESC เพื่อปิด
   window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !overlay.hidden) closeAnnouncement(true);
+    if (e.key === "Escape" && !overlay.hidden) close();
   });
 
-  showAnnouncement();
+  show();
 })();
 

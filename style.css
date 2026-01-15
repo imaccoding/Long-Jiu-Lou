@@ -435,5 +435,9 @@ body.announce-open #viewer{
   overflow: hidden !important;
   scroll-snap-type: none !important;
   overscroll-behavior: contain;
-  touch-action: none;            /* กันปัดเลื่อนบนมือถือ */
+}
+
+/* ให้ overlay รับ gesture แทน */
+body.announce-open .announce-overlay{
+  touch-action: none;
 }

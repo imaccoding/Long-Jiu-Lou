@@ -29,7 +29,7 @@
 </div>
 
   </header>
-  
+
   <!-- Hint -->
   <div class="hint" id="hint">ปัดขึ้น–ลง เพื่อดูเมนู</div>
 
@@ -117,6 +117,17 @@
     menu.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
   })();
 </script>
+
+<!-- Holiday Artwork Overlay -->
+<div id="holidayOverlay" class="holiday-overlay" hidden>
+  <div class="holiday-card" role="dialog" aria-modal="true" aria-label="Holiday Notice">
+    <button id="holidayClose" class="holiday-close" type="button" aria-label="ปิด">✕</button>
+
+    <a id="holidayLink" href="#" target="_blank" rel="noopener" aria-label="เปิดภาพเต็ม">
+      <img id="holidayImg" src="" alt="Holiday artwork" />
+    </a>
+  </div>
+</div>
 
   <script src="app.js"></script>
 </body>

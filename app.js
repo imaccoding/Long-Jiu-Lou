@@ -224,3 +224,109 @@ window.addEventListener("load", () => {
     document.body.style.overflow = ""; // คืนค่าเดิม
   };
 })();
+(() => {
+  // =========================
+  // CONFIG: เรียงลำดับตาม array
+  // =========================
+  const ANNOUNCEMENTS = [
+    {
+      id: "a1",
+      imageSrc: "images/announce-1.jpg",
+      linkToFull: "images/announce-1.jpg",
+      start: "2026-01-15 00:00",
+      end:   "2026-01-20 23:59",
+    },
+    {
+      id: "a2",
+      imageSrc: "images/announce-2.jpg",
+      linkToFull: "images/announce-2.jpg",
+      start: "2026-01-15 00:00",
+      end:   "2026-01-20 23:59",
+    },
+    {
+      id: "a3",
+      imageSrc: "images/announce-3.jpg",
+      linkToFull: "images/announce-3.jpg",
+      start: "2026-01-15 00:00",
+      end:   "2026-01-20 23:59",
+    },
+  ];
+
+  // =========================
+  // Elements
+  // =========================
+  const overlay = document.getElementById("holidayOverlay");
+  const img = document.getElementById("holidayImg");
+  const closeBtn = document.getElementById("holidayClose");
+  const link = document.getElementById("holidayLink");
+
+  if (!overlay || !img || !closeBtn) return;
+
+  // =========================
+  // Helpers (เวลาไทย)
+  // =========================
+  function thTimeToMs(str) {
+    return new Date(str.replace(" ", "T") + ":00+07:00").getTime();
+  }
+  function todayTH() {
+    return new Date(
+      new Date().toLocaleString("en-US", { timeZone: "Asia/Bangkok" })
+    ).toISOString().slice(0, 10);
+  }
+
+  const now = Date.now();
+  const today = todayTH();
+
+  // =========================
+  // เลือกเฉพาะรายการที่ active วันนี้
+  // =========================
+  const activeList = ANNOUNCEMENTS.filter(a => {
+    const s = thTimeToMs(a.start);
+    const e = thTimeToMs(a.end);
+    return now >= s && now <= e;
+  });
+
+  if (activeList.length === 0) return;
+
+  // =========================
+  // ลำดับต่อวัน
+  // =========================
+  const stepKey = `announceStep:${today}`;
+  let step = Number(localStorage.getItem(stepKey) || 0);
+
+  if (step >= activeList.length) return; // วันนี้ดูครบแล้ว
+
+  // =========================
+  // Show current step
+  // =========================
+  const current = activeList[step];
+
+  img.src = current.imageSrc;
+  if (link) link.href = current.linkToFull || current.imageSrc;
+
+  overlay.hidden = false;
+  document.body.style.overflow = "hidden";
+
+  const close = () => {
+    overlay.hidden = true;
+    document.body.style.overflow = "";
+
+    // ขยับไปภาพถัดไป
+    localStorage.setItem(stepKey, String(step + 1));
+
+    // ถ้ามีภาพถัดไป → เด้งต่อทันที
+    if (step + 1 < activeList.length) {
+      setTimeout(() => {
+        location.reload(); // โหลดใหม่เพื่อเรียก step ถัดไป
+      }, 150);
+    }
+  };
+
+  closeBtn.addEventListener("click", close);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) close();
+  });
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !overlay.hidden) close();
+  });
+})();

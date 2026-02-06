@@ -206,27 +206,39 @@ let prevSnap = "";
 
   (() => {
   // ====== CONFIG: ใส่ภาพ / กำหนดวัน และเวลา โปรโมชันทั้งหมด ======
-  const ANNOUNCEMENTS = [
+ const PROMOTIONS = [
     {
       id: "a1",
-      imageSrc: "images/pro-holi/announce-1.jpg",
-      linkToFull: "promotion.html?id=a1",
-      start: "2026-01-14 00:00",
-      end:   "2026-01-15 10:00",
+      title: "โปรโมชั่นสำหรับสมาชิก",
+      imageSrc: "images/pro-feb/1.jpg",
+      detail:
+        "• สมัครสมาชิกใหม่วันนี้ ลดทันที 10% ต่อใบเสร็จ\n" +
+        "• สำหรับสมาชิกเดิม ลดทันที 5% ต่อใบเสร็จ\n" +
+        "• สอบถามเมนูที่ร่วมรายการได้ที่หน้าร้านหรือแชท",
+      start: "2026-02-06 13:45",
+      end:   "2027-01-01 10:00",
     },
     {
       id: "a2",
-      imageSrc: "images/pro-holi/announce-2.jpg",
-      linkToFull: "promotion.html?id=a2",
-      start: "2026-01-14 09:33",
-      end:   "2026-01-15 16:00",
+      title: "โปรโมชั่นสำหรับคุณลูกค้าทุกท่าน",
+      imageSrc: "images/pro-feb/2.jpg",
+      detail:
+        "• ทานอาหารครบ 1,200 บาท\n" +
+        "• รับฟรี ซาลาเปาส้ม\n" +
+        "• โปรโมชั่นนี้ ใช้ได้เฉพาะเดือนกุมภาพันธ์นี้ เท่านั้น",
+      start: "2026-02-01 00:00",
+      end:   "2026-02-28 22:00",
     },
     {
       id: "a3",
-      imageSrc: "images/pro-holi/announce-3.jpg",
-      linkToFull: "promotion.html?id=a3",
-      start: "2026-01-14 09:36",
-      end:   "2026-01-15 17:00",
+      title: "จับอั่งเปาฟรี!",
+      imageSrc: "images/pro-feb/3.jpg",
+      detail:
+        "• เมื่อทานอาหารครบ 3,000 บาท\n" +
+        "• รับฟรีอั่งเปาส่วนลด\n" +
+        "• ระยะเวลา 15 - 18 กุมภาพันธ์นี้ เท่านั้น",
+      start: "2026-02-15 00:00",
+      end:   "2026-02-18 22:00",
     },
   ];
 

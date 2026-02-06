@@ -235,7 +235,7 @@
       <img class="hero promoImg" alt="Promotion artwork">
       <div class="content">
         <!-- ✅ เพิ่ม class เฉพาะจุด (ไม่ลบของเดิม) -->
-        <h2 class="promoHeading promoTitle" id="promoTitle">โปรโมชั่นสำหรับคุณลูกค้าทุกท่าน</h2>
+        <h2 class="promoHeading promoTitle" id="promoTitle">โปรโมชั่นเดือนกุมภาพันธ์</h2>
         <p class="detail promoDetail" id="promoDetail">ทานอาหารครบ 1,200 บาท</p>
         <p class="detail promoDetail" id="promoDetail">รับฟรี ซาลาเปาส้ม</p>
         <p class="detail promoDetail" id="promoDetail">โปรโมชั่นนี้ ใช้ได้เฉพาะเดือนกุมภาพันธ์นี้ เท่านั้น</p>
@@ -260,6 +260,10 @@
         </div>
       </div>
     </section>
+
+<section class="card" id="promoList" hidden>
+  <div class="content" id="listWrap"></div>
+</section>
 
     <!-- ✅ empty state (ไม่มีโปร active) -->
     <section class="card" id="promoEmpty" hidden>
@@ -301,7 +305,7 @@
       },
       {
         id: "a2",
-        title: "โปรโมชั่นสำหรับคุณลูกค้าทุกท่าน",
+        title: "โปรโมชั่นเดือนกุมภาพันธ์",
         imageSrc: "images/pro-feb/2.jpg",
         detail:
           "• ทานอาหารครบ 1,200 บาท\n" +

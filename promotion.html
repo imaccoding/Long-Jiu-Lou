@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <link rel="apple-touch-icon" href="images/Logo-01.webp">
-<link rel="shortcut icon" href="images/Logo-01.webp" type="image/webp">
+  <link rel="shortcut icon" href="images/Logo-01.webp" type="image/webp">
 
   <link rel="apple-touch-icon" href="favicon.webp">
   <title>Promotion | Long Jiu Lou</title>
@@ -61,14 +61,13 @@
     }
 
     .hero{
-  width: 100%;
-  display: block;
-  height: auto;          
-  aspect-ratio: auto;    
-  object-fit: contain;   
-  background: #0f1117;   
-}
-
+      width: 100%;
+      display: block;
+      height: auto;
+      aspect-ratio: auto;
+      object-fit: contain;
+      background: #0f1117;
+    }
 
     .content{ padding: 14px 14px 16px; }
 
@@ -88,30 +87,29 @@
     }
 
     .actions{
-  margin-top: 14px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  width: 100%;
-  justify-content: flex-end;
-  align-items: center;
-}
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      width: 100%;
+      justify-content: flex-end;
+      align-items: center;
+    }
 
     .btn{
-  border:0;
-  border-radius: 999px;
-  padding: 8px 12px;        
-  font-size: 13px;          
-  font-weight: 600;         
-  letter-spacing: .1px;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;                  /* เดิม 10px */
-  text-decoration:none;
-  user-select:none;
-}
-
+      border:0;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .1px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      text-decoration:none;
+      user-select:none;
+    }
 
     .btnShare{
       background: rgba(151, 5, 5, 0.95);
@@ -123,10 +121,10 @@
       border: 1px solid rgba(255,255,255,.10);
     }
     .btnShare:hover{
-        filter: brightness(1.05);
+      filter: brightness(1.05);
     }
     .btnShare:active{
-        transform: translateY(1px);
+      transform: translateY(1px);
     }
 
     .toast{
@@ -197,9 +195,7 @@
       color: rgba(202,164,90,.95);
       padding: 0 6px;
     }
-    .actions .btn{
-  flex: 0 0 auto;
-}
+    .actions .btn{ flex: 0 0 auto; }
     .actions .btnCopy{ order: 1; }
     .actions .btnShare{ order: 2; }
 
@@ -218,14 +214,15 @@
   </header>
 
   <main class="wrap">
-    
+
     <!-- ✅ รายละเอียดโปร (เข้าแบบ ?id=...) -->
     <section class="card promoCard" id="a1" hidden>
-  <img class="hero promoImg" alt="Promotion artwork">
+      <img class="hero promoImg" alt="Promotion artwork">
       <div class="content">
-        <h2 class="promoHeading" id="promoTitle">โปรโมชั่นสำหรับสมาชิก</h2>
-        <p class="detail" id="promoDetail">สมัครสมาชิกใหม่วันนี้ ลดทันที 10% ต่อใบเสร็จ</p>
-        <p class="detail" id="promoDetail">สำหรับสมาชิกเดิม ลดทันที 5% ต่อใบเสร็จ</p>
+        <!-- ✅ เพิ่ม class เฉพาะจุด (ไม่ลบของเดิม) -->
+        <h2 class="promoHeading promoTitle" id="promoTitle">โปรโมชั่นสำหรับสมาชิก</h2>
+        <p class="detail promoDetail" id="promoDetail">สมัครสมาชิกใหม่วันนี้ ลดทันที 10% ต่อใบเสร็จ</p>
+        <p class="detail promoDetail" id="promoDetail">สำหรับสมาชิกเดิม ลดทันที 5% ต่อใบเสร็จ</p>
         <div class="actions">
           <button class="btn btnShare" id="btnShare" type="button">📤 แชร์โปรโมชัน</button>
           <button class="btn btnCopy" id="btnCopy" type="button">🔗 คัดลอกลิงก์</button>
@@ -235,12 +232,13 @@
 
     <!-- ✅ รายละเอียดโปร (เข้าแบบ ?id=...) -->
     <section class="card promoCard" id="a2" hidden>
-  <img class="hero promoImg" alt="Promotion artwork">
+      <img class="hero promoImg" alt="Promotion artwork">
       <div class="content">
-        <h2 class="promoHeading" id="promoTitle">โปรโมชั่นสำหรับคุณลูกค้าทุกท่าน</h2>
-        <p class="detail" id="promoDetail">ทานอาหารครบ 1,200 บาท</p>
-        <p class="detail" id="promoDetail">รับฟรี ซาลาเปาส้ม</p>
-        <p class="detail" id="promoDetail">โปรโมชั่นนี้ ใช้ได้เฉพาะเดือนกุมภาพันธ์นี้ เท่านั้น</p>
+        <!-- ✅ เพิ่ม class เฉพาะจุด (ไม่ลบของเดิม) -->
+        <h2 class="promoHeading promoTitle" id="promoTitle">โปรโมชั่นสำหรับคุณลูกค้าทุกท่าน</h2>
+        <p class="detail promoDetail" id="promoDetail">ทานอาหารครบ 1,200 บาท</p>
+        <p class="detail promoDetail" id="promoDetail">รับฟรี ซาลาเปาส้ม</p>
+        <p class="detail promoDetail" id="promoDetail">โปรโมชั่นนี้ ใช้ได้เฉพาะเดือนกุมภาพันธ์นี้ เท่านั้น</p>
         <div class="actions">
           <button class="btn btnShare" id="btnShare" type="button">📤 แชร์โปรโมชัน</button>
           <button class="btn btnCopy" id="btnCopy" type="button">🔗 คัดลอกลิงก์</button>
@@ -249,12 +247,13 @@
     </section>
 
     <!-- ✅ รายละเอียดโปร (เข้าแบบ ?id=...) -->
-   <section class="card promoCard" id="a3" hidden>
-  <img class="hero promoImg" alt="Promotion artwork">
+    <section class="card promoCard" id="a3" hidden>
+      <img class="hero promoImg" alt="Promotion artwork">
       <div class="content">
-        <h2 class="promoHeading" id="promoTitle">จับอั่งเปาฟรี!</h2>
-        <p class="detail" id="promoDetail">เมื่อทานอาหารครบ 3,000 บาท</p>
-        <p class="detail" id="promoDetail">ระยะเวลา 15 - 18 กุมภาพันธ์นี้ เท่านั้น</p>
+        <!-- ✅ เพิ่ม class เฉพาะจุด (ไม่ลบของเดิม) -->
+        <h2 class="promoHeading promoTitle" id="promoTitle">จับอั่งเปาฟรี!</h2>
+        <p class="detail promoDetail" id="promoDetail">เมื่อทานอาหารครบ 3,000 บาท</p>
+        <p class="detail promoDetail" id="promoDetail">ระยะเวลา 15 - 18 กุมภาพันธ์นี้ เท่านั้น</p>
         <div class="actions">
           <button class="btn btnShare" id="btnShare" type="button">📤 แชร์โปรโมชัน</button>
           <button class="btn btnCopy" id="btnCopy" type="button">🔗 คัดลอกลิงก์</button>
@@ -279,229 +278,223 @@
     </div>
 
     <footer>
-    © Long Jiu Lou Chinese Restaurant
-  </footer>
-  
+      © Long Jiu Lou Chinese Restaurant
+    </footer>
+
   </main>
 
   <div class="toast" id="toast">คัดลอกลิงก์แล้ว</div>
 
-<script>
+  <script>
     // ====== CONFIG: ใส่ภาพ / กำหนดวัน และเวลา โปรโมชันทั้งหมด ======
- const PROMOTIONS = [
-    {
-      id: "a1",
-      title: "โปรโมชั่นสำหรับสมาชิก",
-      imageSrc: "images/pro-feb/1.jpg",
-      detail:
-        "• สมัครสมาชิกใหม่วันนี้ ลดทันที 10% ต่อใบเสร็จ\n" +
-        "• สำหรับสมาชิกเดิม ลดทันที 5% ต่อใบเสร็จ\n" +
-        "• สอบถามเมนูที่ร่วมรายการได้ที่หน้าร้านหรือแชท",
-      start: "2026-02-06 13:45",
-      end:   "2027-01-01 10:00",
-    },
-    {
-      id: "a2",
-      title: "โปรโมชั่นสำหรับคุณลูกค้าทุกท่าน",
-      imageSrc: "images/pro-feb/2.jpg",
-      detail:
-        "• ทานอาหารครบ 1,200 บาท\n" +
-        "• รับฟรี ซาลาเปาส้ม\n" +
-        "• โปรโมชั่นนี้ ใช้ได้เฉพาะเดือนกุมภาพันธ์นี้ เท่านั้น",
-      start: "2026-02-01 00:00",
-      end:   "2026-02-28 22:00",
-    },
-    {
-      id: "a3",
-      title: "จับอั่งเปาฟรี!",
-      imageSrc: "images/pro-feb/3.jpg",
-      detail:
-        "• เมื่อทานอาหารครบ 3,000 บาท\n" +
-        "• รับฟรีอั่งเปาส่วนลด\n" +
-        "• ระยะเวลา 15 - 18 กุมภาพันธ์นี้ เท่านั้น",
-      start: "2026-02-15 00:00",
-      end:   "2026-02-18 22:00",
-    },
-  ];
-  const $ = (id) => document.getElementById(id);
-  const params = new URLSearchParams(location.search);
-  const id = params.get("id");
+    const PROMOTIONS = [
+      {
+        id: "a1",
+        title: "โปรโมชั่นสำหรับสมาชิก",
+        imageSrc: "images/pro-feb/1.jpg",
+        detail:
+          "• สมัครสมาชิกใหม่วันนี้ ลดทันที 10% ต่อใบเสร็จ\n" +
+          "• สำหรับสมาชิกเดิม ลดทันที 5% ต่อใบเสร็จ\n" +
+          "• สอบถามเมนูที่ร่วมรายการได้ที่หน้าร้านหรือแชท",
+        start: "2026-02-06 13:45",
+        end:   "2027-01-01 10:00",
+      },
+      {
+        id: "a2",
+        title: "โปรโมชั่นสำหรับคุณลูกค้าทุกท่าน",
+        imageSrc: "images/pro-feb/2.jpg",
+        detail:
+          "• ทานอาหารครบ 1,200 บาท\n" +
+          "• รับฟรี ซาลาเปาส้ม\n" +
+          "• โปรโมชั่นนี้ ใช้ได้เฉพาะเดือนกุมภาพันธ์นี้ เท่านั้น",
+        start: "2026-02-01 00:00",
+        end:   "2026-02-28 22:00",
+      },
+      {
+        id: "a3",
+        title: "จับอั่งเปาฟรี!",
+        imageSrc: "images/pro-feb/3.jpg",
+        detail:
+          "• เมื่อทานอาหารครบ 3,000 บาท\n" +
+          "• รับฟรีอั่งเปาส่วนลด\n" +
+          "• ระยะเวลา 15 - 18 กุมภาพันธ์นี้ เท่านั้น",
+        start: "2026-02-15 00:00",
+        end:   "2026-02-18 22:00",
+      },
+    ];
 
-  function hideAll() {
-  document.querySelectorAll(".promoCard").forEach(el => el.hidden = true);
-  document.getElementById("promoEmpty").hidden = true;
-  document.getElementById("promoError").hidden = true;
-}
+    // ✅ เหลือ $ / params / id ชุดเดียว (แก้เฉพาะจุด: เอาที่ซ้ำออก)
+    const $ = (id) => document.getElementById(id);
+    const params = new URLSearchParams(location.search);
+    const id = params.get("id"); // promo id
 
-document.querySelectorAll(".promoCard").forEach(card => {
-  const btnShare = card.querySelector(".btnShare");
-  const btnCopy  = card.querySelector(".btnCopy");
-
-  btnShare?.addEventListener("click", async () => {
-    const url = location.href;
-    const title = card.querySelector(".promoTitle")?.textContent?.trim() || "Promotion";
-
-    if (navigator.share) {
-      await navigator.share({ title, url });
-    } else {
-      await navigator.clipboard.writeText(url);
-      alert("คัดลอกลิงก์แล้ว");
+    // ====== เวลาไทย ======
+    function thTimeToMs(str) {
+      return new Date(str.replace(" ", "T") + ":00+07:00").getTime();
     }
-  });
-
-  btnCopy?.addEventListener("click", async () => {
-    await navigator.clipboard.writeText(location.href);
-    alert("คัดลอกลิงก์แล้ว");
-  });
-});
-
-  // ====== เวลาไทย ======
-  function thTimeToMs(str) {
-    return new Date(str.replace(" ", "T") + ":00+07:00").getTime();
-  }
-  function nowTHms() {
-    const th = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Bangkok" }));
-    return th.getTime();
-  }
-  function isActive(p, nowMs) {
-    const s = thTimeToMs(p.start);
-    const e = thTimeToMs(p.end);
-    return nowMs >= s && nowMs <= e;
-  }
-
-  function showToast(text){
-    const t = $("toast");
-    t.textContent = text;
-    t.classList.add("show");
-    clearTimeout(showToast._tm);
-    showToast._tm = setTimeout(() => t.classList.remove("show"), 1200);
-  }
-
-  // ====== helpers: hide all ======
-  function hideAll() {
-    $("promoCard").hidden = true;
-    $("promoList").hidden = true;
-    $("promoEmpty").hidden = true;
-    $("promoError").hidden = true;
-  }
-
-  // ====== Render: Detail ======
-  function renderDetail(p){
-    hideAll();
-
-    $("promoCard").hidden = false;
-    $("promoImg").src = p.imageSrc;
-    $("promoTitle").textContent = p.title;
-    $("promoDetail").textContent = p.detail;
-    $("pageTitle").textContent = p.title;
-
-    const shareUrl = location.href;
-
-    $("btnShare").onclick = async () => {
-  const shareUrl = location.href;
-
-  // ข้อมูลพื้นฐาน
-  const data = {
-    title: p.title,
-    text: p.title,
-    url: shareUrl,
-  };
-
-  // พยายามแนบรูปไปด้วย (ถ้า browser รองรับ)
-  try {
-    const res = await fetch(p.imageSrc, { cache: "no-store" });
-    const blob = await res.blob();
-
-    const ext = (p.imageSrc.split(".").pop() || "jpg").split("?")[0];
-    const file = new File([blob], `promo-${p.id}.${ext}`, { type: blob.type || "image/jpeg" });
-
-    // ตรวจว่าแชร์ไฟล์ได้ไหม
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      await navigator.share({ ...data, files: [file] });
-      return;
+    function nowTHms() {
+      const th = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Bangkok" }));
+      return th.getTime();
     }
-  } catch (err) {
-    // ถ้าโหลดรูปไม่ได้ หรือแนบไม่ได้ จะตกไปแชร์แบบปกติ
-    console.warn("Share with image failed:", err);
-  }
-
-  // fallback: แชร์แบบปกติ (ลิงก์ + ชื่อโปร)
-  if (navigator.share) {
-    try { await navigator.share(data); } catch {}
-    return;
-  }
-
-  // fallback สุดท้าย: copy link
-  try {
-    await navigator.clipboard.writeText(shareUrl);
-    showToast("คัดลอกลิงก์แล้ว");
-  } catch {
-    prompt("คัดลอกลิงก์นี้:", shareUrl);
-  }
-};
-
-   $("btnCopy").onclick = async () => {
-      try {
-        await navigator.clipboard.writeText(shareUrl);
-        showToast("คัดลอกลิงก์แล้ว");
-      } catch {
-        prompt("คัดลอกลิงก์นี้:", shareUrl);
-      }
-    };
-  } 
-
-  // ====== Render: List (Active only) ======
-  function renderList(activePromos){
-    hideAll();
-    $("pageTitle").textContent = "PROMOTIONS";
-
-    if (!activePromos || activePromos.length === 0) {
-      $("promoEmpty").hidden = false;
-      return;
+    function isActive(p, nowMs) {
+      const s = thTimeToMs(p.start);
+      const e = thTimeToMs(p.end);
+      return nowMs >= s && nowMs <= e;
     }
 
-    const list = $("promoList");
-    const wrap = $("listWrap");
-    if (!list || !wrap) {
-      $("promoEmpty").hidden = false;
-      return;
+    function showToast(text){
+      const t = $("toast");
+      if (!t) return;
+      t.textContent = text;
+      t.classList.add("show");
+      clearTimeout(showToast._tm);
+      showToast._tm = setTimeout(() => t.classList.remove("show"), 1200);
     }
 
-    list.hidden = false;
-    wrap.innerHTML = "";
+    // ✅ hideAll เดิมคงไว้ แต่ทำให้ปลอด null (ไม่พังถ้า element ไม่มี)
+    function hideAll() {
+      // ซ่อนการ์ดรายละเอียดทั้งหมด
+      document.querySelectorAll(".promoCard").forEach(el => (el.hidden = true));
 
-    activePromos.forEach(p => {
-      const a = document.createElement("a");
-      a.href = `promotion.html?id=${encodeURIComponent(p.id)}`;
-      a.className = "promoItem";
-      a.innerHTML = `
-        <img class="promoThumb" src="${p.imageSrc}" alt="">
-        <div class="promoMeta">
-          <div class="promoName">${p.title}</div>
-          <div class="promoHint">แตะเพื่อดูรายละเอียด</div>
-        </div>
-        <div class="promoGo">›</div>
-      `;
-      wrap.appendChild(a);
+      // ซ่อน list/empty/error (มีไหมค่อยซ่อน)
+      const list  = $("promoList");
+      const empty = $("promoEmpty");
+      const err   = $("promoError");
+
+      if (list)  list.hidden = true;
+      if (empty) empty.hidden = true;
+      if (err)   err.hidden = true;
+    }
+
+    // ✅ Bind share/copy ต่อการ์ด (คงฟีเจอร์เดิม) + แก้ selector ให้เจอจริง
+    document.querySelectorAll(".promoCard").forEach(card => {
+      const btnShare = card.querySelector(".btnShare");
+      const btnCopy  = card.querySelector(".btnCopy");
+
+      btnShare?.addEventListener("click", async () => {
+        const url = location.href;
+        const title = card.querySelector(".promoTitle")?.textContent?.trim()
+          || card.querySelector("#promoTitle")?.textContent?.trim()
+          || "Promotion";
+
+        if (navigator.share) {
+          try { await navigator.share({ title, url }); } catch {}
+        } else {
+          try {
+            await navigator.clipboard.writeText(url);
+            showToast("คัดลอกลิงก์แล้ว");
+          } catch {
+            prompt("คัดลอกลิงก์นี้:", url);
+          }
+        }
+      });
+
+      btnCopy?.addEventListener("click", async () => {
+        const url = location.href;
+        try {
+          await navigator.clipboard.writeText(url);
+          showToast("คัดลอกลิงก์แล้ว");
+        } catch {
+          prompt("คัดลอกลิงก์นี้:", url);
+        }
+      });
     });
-  }
 
-  // ====== main ======
-  const nowMs = nowTHms();
-
-  if (id) {
-    const promo = PROMOTIONS.find(p => p.id === id);
-    if (!promo) {
+    // ====== Render: Detail ======
+    function renderDetail(p){
       hideAll();
-      $("promoError").hidden = false;
-    } else {
-      renderDetail(promo);
-    }
-  } else {
-    const activePromos = PROMOTIONS.filter(p => isActive(p, nowMs));
-    renderList(activePromos);
-  }
-</script>
 
+      // ✅ แสดงการ์ดตาม id (เช่น a1/a2/a3)
+      const card = $(p.id);
+      if (!card) {
+        const err = $("promoError");
+        if (err) err.hidden = false;
+        return;
+      }
+
+      card.hidden = false;
+
+      // อัปเดตหัวข้อหน้า
+      const pageTitle = $("pageTitle");
+      if (pageTitle) pageTitle.textContent = p.title;
+
+      // set รูป “ใน card นี้”
+      const img = card.querySelector(".promoImg");
+      if (img) img.src = p.imageSrc;
+
+      // set title “ใน card นี้” (รองรับทั้ง class และ id เดิม)
+      const titleEl =
+        card.querySelector(".promoTitle") ||
+        card.querySelector("#promoTitle");
+      if (titleEl) titleEl.textContent = p.title;
+
+      // set detail ลง <p> ที่มีอยู่ (ไม่ลบของเดิม แค่เติมให้ตรง p.detail)
+      const detailEls = card.querySelectorAll(".promoDetail");
+      if (detailEls && detailEls.length) {
+        const lines = String(p.detail || "").split("\n").filter(Boolean);
+        detailEls.forEach((el, i) => {
+          el.textContent = lines[i] || "";
+          el.hidden = !lines[i];
+        });
+      }
+    }
+
+    // ====== Render: List (Active only) ======
+    function renderList(activePromos){
+      hideAll();
+      const pageTitle = $("pageTitle");
+      if (pageTitle) pageTitle.textContent = "PROMOTIONS";
+
+      if (!activePromos || activePromos.length === 0) {
+        const empty = $("promoEmpty");
+        if (empty) empty.hidden = false;
+        return;
+      }
+
+      // NOTE: หน้านี้ยังไม่มี promoList/listWrap ใน HTML (คงไว้ตามเดิม)
+      const list = $("promoList");
+      const wrap = $("listWrap");
+      if (!list || !wrap) {
+        const empty = $("promoEmpty");
+        if (empty) empty.hidden = false;
+        return;
+      }
+
+      list.hidden = false;
+      wrap.innerHTML = "";
+
+      activePromos.forEach(p => {
+        const a = document.createElement("a");
+        a.href = `promotion.html?id=${encodeURIComponent(p.id)}`;
+        a.className = "promoItem";
+        a.innerHTML = `
+          <img class="promoThumb" src="${p.imageSrc}" alt="">
+          <div class="promoMeta">
+            <div class="promoName">${p.title}</div>
+            <div class="promoHint">แตะเพื่อดูรายละเอียด</div>
+          </div>
+          <div class="promoGo">›</div>
+        `;
+        wrap.appendChild(a);
+      });
+    }
+
+    // ====== main ======
+    const nowMs = nowTHms();
+
+    if (id) {
+      const promo = PROMOTIONS.find(p => p.id === id);
+      if (!promo) {
+        hideAll();
+        const err = $("promoError");
+        if (err) err.hidden = false;
+      } else {
+        renderDetail(promo);
+      }
+    } else {
+      const activePromos = PROMOTIONS.filter(p => isActive(p, nowMs));
+      renderList(activePromos);
+    }
+  </script>
 </body>
 </html>

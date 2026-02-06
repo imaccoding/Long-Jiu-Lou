@@ -1,3 +1,8 @@
+// ===============================
+// MENU | LONG JIU LOU - main.js
+// ===============================
+
+// ---------- Flipbook viewer ----------
 (() => {
   const viewer = document.getElementById("viewer");
   const pages = Array.from(document.querySelectorAll(".page"));
@@ -9,9 +14,9 @@
   const dotsWrap = document.getElementById("dots");
   const hint = document.getElementById("hint");
 
-  if (pageTotal) pageTotal.textContent = total;
+  if (pageTotal) pageTotal.textContent = String(total);
 
-  // build dots (ถ้ามี)
+  // build dots
   const dots = [];
   if (dotsWrap) {
     pages.forEach((_, i) => {
@@ -33,7 +38,7 @@
     if (hint) hint.classList.toggle("hide", index !== 0);
   }
 
-  // ✅ preloaded ต้องประกาศก่อนใช้ (แก้ error ตัวที่ 2)
+  // preload
   const preloaded = new Set();
   function preloadImg(src) {
     if (!src || preloaded.has(src)) return;
@@ -109,7 +114,7 @@
 
   pages.forEach(p => io.observe(p));
 
-  // keyboard support (ถ้าต้องการ)
+  // keyboard support
   window.addEventListener("keydown", (e) => {
     if (e.key === "ArrowUp") scrollToIndex(Math.max(0, currentIndex - 1));
     if (e.key === "ArrowDown") scrollToIndex(Math.min(total - 1, currentIndex + 1));
@@ -120,50 +125,9 @@
 })();
 
 
-// Contact toggle
+// ---------- Contact toggle (DEDUPED) ----------
 (() => {
-  const wrap = document.querySelector(".contactWrap");
-  const btn = document.getElementById("contactToggle");
-  const menu = document.getElementById("contactMenu");
-  const overlay = document.getElementById("contactOverlay");
-
-  if (!wrap || !btn || !menu || !overlay) return;
-
-  const open = () => {
-    wrap.classList.add("open");
-    btn.setAttribute("aria-expanded", "true");
-    menu.setAttribute("aria-hidden", "false");
-    overlay.hidden = false;
-  };
-
-  const close = () => {
-    wrap.classList.remove("open");
-    btn.setAttribute("aria-expanded", "false");
-    menu.setAttribute("aria-hidden", "true");
-    overlay.hidden = true;
-  };
-
-  btn.addEventListener("click", () => {
-    wrap.classList.contains("open") ? close() : open();
-  });
-
-  overlay.addEventListener("click", close);
-
-  // ปิดเมื่อกด ESC (desktop)
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") close();
-  });
-
-  // ปิดเมื่อกดปุ่มย่อยแล้ว (ให้ดูเรียบร้อย)
-  menu.querySelectorAll("a").forEach(a => a.addEventListener("click", close));
-})();
-
-const viewer = document.getElementById("viewer");
-let prevViewerOverflow = "";
-let prevSnap = "";
-
-(() => {
-  const wrap = document.getElementById("contactWrap");
+  const wrap = document.querySelector(".contactWrap") || document.getElementById("contactWrap");
   const btn = document.getElementById("contactToggle");
   const menu = document.getElementById("contactMenu");
   const overlay = document.getElementById("contactOverlay");
@@ -196,17 +160,13 @@ let prevSnap = "";
     if (e.key === "Escape") close();
   });
 
-  menu.querySelectorAll("a").forEach(a =>
-    a.addEventListener("click", close)
-  );
-
-  // กันเคสคลิกโดนพื้นที่ menu แล้ว event ไปปิดทับ
+  menu.querySelectorAll("a").forEach(a => a.addEventListener("click", close));
   menu.addEventListener("click", (e) => e.stopPropagation());
 })();
 
-  (() => {
-    
-  // Elements
+
+// ---------- Announcement overlay ----------
+(() => {
   const overlay = document.getElementById("announceOverlay");
   const closeBtn = document.getElementById("announceClose");
   const linkWrap = document.getElementById("announceLink");
@@ -215,27 +175,23 @@ let prevSnap = "";
   const viewer = document.getElementById("viewer");
 
   if (!overlay || !closeBtn || !linkWrap || !imgInLink || !plainImg) return;
+  if (typeof ANNOUNCEMENTS === "undefined" || !Array.isArray(ANNOUNCEMENTS)) return;
 
-  // Helpers
   function thTimeToMs(str) {
     return new Date(str.replace(" ", "T") + ":00+07:00").getTime();
   }
 
   const now = Date.now();
-
-  // เลือกอันที่ active ตอนนี้ (ตามลำดับ array)
   const activeList = ANNOUNCEMENTS
     .map(a => ({ ...a, startMs: thTimeToMs(a.start), endMs: thTimeToMs(a.end) }))
     .filter(a => now >= a.startMs && now <= a.endMs);
 
   if (!activeList.length) return;
-
   const current = activeList[0];
 
-  // ===== lock / unlock scroll =====
+  let prevBodyOverflow = "";
   let prevViewerOverflow = "";
   let prevSnap = "";
-  let prevBodyOverflow = "";
 
   function lockScroll() {
     prevBodyOverflow = document.body.style.overflow;
@@ -260,6 +216,13 @@ let prevSnap = "";
     }
   }
 
+  function close() {
+    overlay.hidden = true;
+    overlay.setAttribute("aria-hidden", "true");
+    unlockScroll();
+    closeBtn.blur();
+  }
+
   function show() {
     // reset
     linkWrap.hidden = true;
@@ -269,21 +232,22 @@ let prevSnap = "";
 
     const onImgError = () => {
       console.warn("[Announcement] Image failed to load:", current.imageSrc);
-      close(); // ปิด + ปลดล็อก (ไม่ค้าง)
+      close();
     };
 
-    const useLink = !!(current.linkToFull && current.linkToFull.trim());
+    const useLink = !!(current.linkToFull && String(current.linkToFull).trim());
+    const imageSrc = current.imageSrc;
 
     if (useLink) {
-      linkWrap.href = current.linkToFull.trim();
+      linkWrap.href = String(current.linkToFull).trim();
       linkWrap.hidden = false;
       imgInLink.hidden = false;
       imgInLink.onerror = onImgError;
-      imgInLink.src = current.imageSrc;
+      imgInLink.src = imageSrc;
     } else {
       plainImg.hidden = false;
       plainImg.onerror = onImgError;
-      plainImg.src = current.imageSrc;
+      plainImg.src = imageSrc;
     }
 
     overlay.hidden = false;
@@ -291,14 +255,6 @@ let prevSnap = "";
     lockScroll();
   }
 
-  function close() {
-    overlay.hidden = true;
-    overlay.setAttribute("aria-hidden", "true");
-    unlockScroll();
-    closeBtn.blur();
-  }
-
-  // Events
   closeBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     close();
@@ -315,27 +271,40 @@ let prevSnap = "";
   show();
 })();
 
-function renderList(activePromos){
-  // โชว์ list ถ้ามี
+
+// ---------- Promotions (FIXED) ----------
+(() => {
+  // อ่าน id ตั้งแต่แรก ป้องกัน reference ก่อนประกาศ
+  const params = new URLSearchParams(location.search);
+  const promoId = params.get("id"); // string | null
+
+  // ✅ ถ้ามี id แปลว่าเข้าหน้ารายละเอียด → อย่าโชว์ empty (กันเคสโหลดช้า)
+  const emptyEl = document.getElementById("promoEmpty");
+  if (promoId && emptyEl) emptyEl.hidden = true;
+
+  // export ให้โค้ดเดิมเรียกใช้ได้
+  window.__PROMO_ID__ = promoId;
+})();
+
+function renderList(activePromos, promoId) {
   const list = document.getElementById("promoList");
   const wrap = document.getElementById("listWrap");
   const empty = document.getElementById("promoEmpty");
 
+  // reset
   if (list) list.hidden = true;
   if (empty) empty.hidden = true;
 
+  // ไม่มีโปร
   if (!activePromos || activePromos.length === 0) {
-    // ✅ ไม่มีโปร active → โชว์ข้อความแทน
-    if (!id) {
-  empty.hidden = false;   // เข้าแบบไม่มี id → โชว์ empty
-} else {
-  empty.hidden = true;    // มี id → ซ่อน empty
-}
+    // โชว์ empty เฉพาะตอน “ไม่มี id”
+    if (empty) empty.hidden = !!promoId; // มี id = true (ซ่อน), ไม่มี id = false (โชว์)
     return;
   }
 
-  // ✅ มีโปร active → โชว์รายการ
+  // มีโปร → ต้องมี list + wrap
   if (!list || !wrap) return;
+
   list.hidden = false;
   wrap.innerHTML = "";
 
@@ -354,12 +323,3 @@ function renderList(activePromos){
     wrap.appendChild(a);
   });
 }
-
-const empty = document.getElementById("promoEmpty");
-const params = new URLSearchParams(location.search);
-const id = params.get("id");
-
-// ✅ ถ้ามี id แปลว่าเข้าหน้ารายละเอียด → อย่าโชว์ empty
-if (id && empty) empty.hidden = true;
-
-

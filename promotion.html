@@ -218,9 +218,10 @@
   </header>
 
   <main class="wrap">
+    
     <!-- ✅ รายละเอียดโปร (เข้าแบบ ?id=...) -->
-    <section class="card" id="promoCard" hidden>
-      <img class="hero" id="promoImg" alt="Promotion artwork">
+    <section class="card promoCard" id="a1" hidden>
+  <img class="hero promoImg" alt="Promotion artwork">
       <div class="content">
         <h2 class="promoHeading" id="promoTitle">โปรโมชั่นสำหรับสมาชิก</h2>
         <p class="detail" id="promoDetail">สมัครสมาชิกใหม่วันนี้ ลดทันที 10% ต่อใบเสร็จ</p>
@@ -233,8 +234,8 @@
     </section>
 
     <!-- ✅ รายละเอียดโปร (เข้าแบบ ?id=...) -->
-    <section class="card" id="promoCard" hidden>
-      <img class="hero" id="promoImg" alt="Promotion artwork">
+    <section class="card promoCard" id="a2" hidden>
+  <img class="hero promoImg" alt="Promotion artwork">
       <div class="content">
         <h2 class="promoHeading" id="promoTitle">โปรโมชั่นสำหรับคุณลูกค้าทุกท่าน</h2>
         <p class="detail" id="promoDetail">ทานอาหารครบ 1,200 บาท</p>
@@ -248,8 +249,8 @@
     </section>
 
     <!-- ✅ รายละเอียดโปร (เข้าแบบ ?id=...) -->
-    <section class="card" id="promoCard" hidden>
-      <img class="hero" id="promoImg" alt="Promotion artwork">
+   <section class="card promoCard" id="a3" hidden>
+  <img class="hero promoImg" alt="Promotion artwork">
       <div class="content">
         <h2 class="promoHeading" id="promoTitle">จับอั่งเปาฟรี!</h2>
         <p class="detail" id="promoDetail">เมื่อทานอาหารครบ 3,000 บาท</p>
@@ -325,6 +326,34 @@
   const $ = (id) => document.getElementById(id);
   const params = new URLSearchParams(location.search);
   const id = params.get("id");
+
+  function hideAll() {
+  document.querySelectorAll(".promoCard").forEach(el => el.hidden = true);
+  document.getElementById("promoEmpty").hidden = true;
+  document.getElementById("promoError").hidden = true;
+}
+
+document.querySelectorAll(".promoCard").forEach(card => {
+  const btnShare = card.querySelector(".btnShare");
+  const btnCopy  = card.querySelector(".btnCopy");
+
+  btnShare?.addEventListener("click", async () => {
+    const url = location.href;
+    const title = card.querySelector(".promoTitle")?.textContent?.trim() || "Promotion";
+
+    if (navigator.share) {
+      await navigator.share({ title, url });
+    } else {
+      await navigator.clipboard.writeText(url);
+      alert("คัดลอกลิงก์แล้ว");
+    }
+  });
+
+  btnCopy?.addEventListener("click", async () => {
+    await navigator.clipboard.writeText(location.href);
+    alert("คัดลอกลิงก์แล้ว");
+  });
+});
 
   // ====== เวลาไทย ======
   function thTimeToMs(str) {

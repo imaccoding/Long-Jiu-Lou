@@ -86,40 +86,8 @@
   <img src="images/icons/icon-contact.jpg" alt="Contact" />
 </button>
 
-
-</div>
-
 <div class="contactOverlay" id="contactOverlay" hidden></div>
-<script>
-  (function () {
-    const wrap = document.getElementById("contactWrap");
-    const btn = document.getElementById("contactToggle");
-    const menu = document.getElementById("contactMenu");
-    const overlay = document.getElementById("contactOverlay");
-
-    if (!wrap || !btn || !menu || !overlay) return;
-
-    function openMenu(){
-      wrap.classList.add("open");
-      btn.setAttribute("aria-expanded","true");
-      menu.setAttribute("aria-hidden","false");
-      overlay.hidden = false;
-    }
-    function closeMenu(){
-      wrap.classList.remove("open");
-      btn.setAttribute("aria-expanded","false");
-      menu.setAttribute("aria-hidden","true");
-      overlay.hidden = true;
-    }
-
-    btn.addEventListener("click", () => {
-      wrap.classList.contains("open") ? closeMenu() : openMenu();
-    });
-
-    overlay.addEventListener("click", closeMenu);
-    menu.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
-  })();
-</script>
+</div>
 
 <!-- Holiday / Announcement Modal -->
 <div id="announceOverlay" class="announce-overlay" hidden aria-hidden="true">

@@ -319,14 +319,6 @@ transform: scale(.92);
   place-items: center;
 }
 
-.fab.main img{
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  padding: 10px;
-  display: block;
-}
-
 .fab.main:active{
   transform: scale(.92);
 }

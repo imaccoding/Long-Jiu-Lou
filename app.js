@@ -128,11 +128,10 @@
 // ---------- Contact toggle (DEDUPED) ----------
 (() => {
   const wrap = document.querySelector(".contactWrap") || document.getElementById("contactWrap");
-  const btn = document.getElementById("contactToggle");
   const menu = document.getElementById("contactMenu");
   const overlay = document.getElementById("contactOverlay");
 
-  if (!wrap || !btn || !menu || !overlay) return;
+  if (!wrap || !menu || !overlay) return;
 
   const open = () => {
     wrap.classList.add("open");

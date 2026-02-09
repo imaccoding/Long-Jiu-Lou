@@ -391,11 +391,11 @@ function renderList(activePromos, promoId) {
 // ===============================
 // Promotion Page
 // ===============================
-function initPromotionPage(){
+function initPromotionPage() {
   // guard: รันเฉพาะหน้า promo
   if (!document.body.classList.contains("promoPage")) return;
 
-  // ---------- CONFIG ----------
+   // ---------- CONFIG ----------
 const PROMOTIONS = [
   {
     id: "a1",
@@ -448,24 +448,21 @@ const PROMOTIONS = [
 
 
   const $ = (id) => document.getElementById(id);
-  const params = new URLSearchParams(location.search);
-  const promoId = params.get("id");
-  document.body.classList.toggle("is-detail", !!promoId);
 
   // ---------- Time helpers ----------
   const thTimeToMs = (str) =>
     new Date(str.replace(" ", "T") + ":00+07:00").getTime();
 
   const nowTHms = () =>
-    new Date(new Date().toLocaleString("en-US", {
-      timeZone: "Asia/Bangkok"
-    })).getTime();
+    new Date(
+      new Date().toLocaleString("en-US", { timeZone: "Asia/Bangkok" })
+    ).getTime();
 
   const isActive = (p, nowMs) =>
     nowMs >= thTimeToMs(p.start) && nowMs <= thTimeToMs(p.end);
 
   // ---------- Toast ----------
-  function showToast(text){
+  function showToast(text) {
     const t = $("toast");
     if (!t) return;
     t.textContent = text;
@@ -475,18 +472,18 @@ const PROMOTIONS = [
   }
 
   // ---------- Hide ----------
-  function hideAll(){
-    document.querySelectorAll(".promoCard").forEach(el => el.hidden = true);
-    ["promoList","promoEmpty","promoError"].forEach(id=>{
+  function hideAll() {
+    document.querySelectorAll(".promoCard").forEach((el) => (el.hidden = true));
+    ["promoList", "promoEmpty", "promoError"].forEach((id) => {
       const el = $(id);
       if (el) el.hidden = true;
     });
   }
 
-  // ---------- Bind buttons ----------
-  document.querySelectorAll(".promoCard").forEach(card => {
+  // ---------- Bind buttons (ผูกครั้งเดียว) ----------
+  document.querySelectorAll(".promoCard").forEach((card) => {
     const btnShare = card.querySelector(".btnShare");
-    const btnCopy  = card.querySelector(".btnCopy");
+    const btnCopy = card.querySelector(".btnCopy");
 
     const getTitle = () =>
       card.querySelector(".promoTitle")?.textContent?.trim() || "Promotion";
@@ -496,71 +493,87 @@ const PROMOTIONS = [
       const title = getTitle();
 
       if (navigator.share) {
-        try { await navigator.share({ title, url }); } catch {}
-      } else {
+        try {
+          await navigator.share({ title, url });
+        } catch {}
+        return;
+      }
+
+      try {
         await navigator.clipboard.writeText(url);
         showToast("คัดลอกลิงก์แล้ว");
+      } catch {
+        prompt("คัดลอกลิงก์นี้:", url);
       }
     });
 
     btnCopy?.addEventListener("click", async () => {
-      await navigator.clipboard.writeText(location.href);
-      showToast("คัดลอกลิงก์แล้ว");
+      const url = location.href;
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast("คัดลอกลิงก์แล้ว");
+      } catch {
+        prompt("คัดลอกลิงก์นี้:", url);
+      }
     });
   });
 
-  // ---------- Render ----------
+  // ---------- Render detail ----------
   function renderDetail(p) {
-  hideAll();
+    hideAll();
 
-  const card = document.querySelector(`.promoCard[data-promo-id="${p.id}"]`);
-  if (!card) {
-    document.getElementById("promoError")?.removeAttribute("hidden");
-    return;
+    const card = document.querySelector(
+      `.promoCard[data-promo-id="${p.id}"]`
+    );
+    if (!card) {
+      $("promoError")?.removeAttribute("hidden");
+      return;
+    }
+
+    card.hidden = false;
+
+    const pageTitle = $("pageTitle");
+    if (pageTitle) pageTitle.textContent = p.title;
+
+    const img = card.querySelector(".promoImg");
+    if (img) img.src = p.imageSrc;
+
+    const titleEl = card.querySelector(".promoTitle");
+    if (titleEl) titleEl.textContent = p.title;
+
+    // ✅ fallback: ถ้ายังใช้ <p class="promoDetail"> หลายบรรทัด
+    const detailEls = card.querySelectorAll(".promoDetail");
+    const lines = Array.isArray(p.lines) ? p.lines : [];
+    detailEls.forEach((el, i) => {
+      const text = lines[i] || "";
+      el.textContent = text;
+      el.hidden = !text;
+    });
   }
 
-  card.hidden = false;
-
-  // topbar title
-  const pageTitle = document.getElementById("pageTitle");
-  if (pageTitle) pageTitle.textContent = p.title;
-
-  // image
-  const img = card.querySelector(".promoImg");
-  if (img) img.src = p.imageSrc;
-
-  // card title
-  const titleEl = card.querySelector(".promoTitle");
-  if (titleEl) titleEl.textContent = p.title;
-
-  // details (เติมตามจำนวน <p> ที่มี)
-  const detailEls = card.querySelectorAll(".promoDetail");
-  const lines = Array.isArray(p.lines) ? p.lines : [];
-
-  detailEls.forEach((el, i) => {
-    const text = lines[i] || "";
-    el.textContent = text;
-    el.hidden = !text;
-  });
-}
-
-
-
-  function renderList(list){
+  // ---------- Render list ----------
+  function renderList(list) {
     hideAll();
+
     const titleEl = $("pageTitle");
     if (titleEl) titleEl.textContent = "PROMOTIONS";
 
-    if (!list.length){
+    if (!list || list.length === 0) {
       $("promoEmpty")?.removeAttribute("hidden");
       return;
     }
 
+    const promoList = $("promoList");
     const wrap = $("listWrap");
-    $("promoList").hidden = false;
+    if (!promoList || !wrap) {
+      $("promoEmpty")?.removeAttribute("hidden");
+      return;
+    }
+
+    promoList.hidden = false;
     wrap.innerHTML = "";
 
-    list.forEach(p=>{
+    list.forEach((p) => {
       const a = document.createElement("a");
       a.href = `promotion.html?id=${encodeURIComponent(p.id)}`;
       a.className = "promoItem";
@@ -576,17 +589,25 @@ const PROMOTIONS = [
     });
   }
 
-  // ---------- Main ----------
+  // ---------- Main (มีชุดเดียวพอ) ----------
+  const params = new URLSearchParams(location.search);
+  const promoId = params.get("id");
+
+  document.body.classList.toggle("is-detail", !!promoId);
+
   const nowMs = nowTHms();
 
-  if (promoId){
-    const promo = PROMOTIONS.find(p => p.id === promoId);
+  if (promoId) {
+    const promo = PROMOTIONS.find((p) => p.id === promoId);
     promo ? renderDetail(promo) : $("promoError")?.removeAttribute("hidden");
   } else {
-    renderList(PROMOTIONS.filter(p => isActive(p, nowMs)));
+    const active = PROMOTIONS.filter((p) => isActive(p, nowMs));
+    renderList(active);
   }
 }
 
 // init
-initPromotionPage();
+document.addEventListener("DOMContentLoaded", () => {
+  initPromotionPage();
+});
 

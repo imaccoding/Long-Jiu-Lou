@@ -446,7 +446,6 @@ const PROMOTIONS = [
   },
 ];
 
-
   const $ = (id) => document.getElementById(id);
 
   // ---------- Time helpers ----------
@@ -520,40 +519,44 @@ const PROMOTIONS = [
 
   // ---------- Render detail ----------
   function renderDetail(p) {
-    hideAll();
+  hideAll();
 
-    const card = document.querySelector(
-      `.promoCard[data-promo-id="${p.id}"]`
-    );
-    if (!card) {
-      $("promoError")?.removeAttribute("hidden");
-      return;
-    }
+  const detail = document.getElementById("promoDetail");
+  const img = document.getElementById("promoDetailImg");
+  const title = document.getElementById("promoDetailTitle");
+  const linesWrap = document.getElementById("promoDetailLines");
+  const pageTitle = document.getElementById("pageTitle");
 
-    card.hidden = false;
-
-    const pageTitle = $("pageTitle");
-    if (pageTitle) pageTitle.textContent = p.title;
-
-    const img = card.querySelector(".promoImg");
-    if (img) img.src = p.imageSrc;
-
-    const titleEl = card.querySelector(".promoTitle");
-    if (titleEl) titleEl.textContent = p.title;
-
-    // ✅ fallback: ถ้ายังใช้ <p class="promoDetail"> หลายบรรทัด
-    const detailEls = card.querySelectorAll(".promoDetail");
-    const lines = Array.isArray(p.lines) ? p.lines : [];
-    detailEls.forEach((el, i) => {
-      const text = lines[i] || "";
-      el.textContent = text;
-      el.hidden = !text;
-    });
+  if (!detail || !img || !title || !linesWrap) {
+    document.getElementById("promoError")?.removeAttribute("hidden");
+    return;
   }
+
+  detail.hidden = false;
+
+  if (pageTitle) pageTitle.textContent = p.title;
+  img.src = p.imageSrc;
+  title.textContent = p.title;
+
+  linesWrap.innerHTML = "";
+  (p.lines || []).forEach(text => {
+    const el = document.createElement("p");
+    el.className = "detail";
+    el.textContent = text;
+    linesWrap.appendChild(el);
+  });
+
+  // ✅ แสดงปุ่ม back เฉพาะตอนเป็นหน้า detail
+  const backBtn = document.getElementById("backBtn");
+  if (backBtn) backBtn.hidden = false;
+}
+
 
   // ---------- Render list ----------
   function renderList(list) {
     hideAll();
+    const backBtn = document.getElementById("backBtn");
+    if (backBtn) backBtn.hidden = true;
 
     const titleEl = $("pageTitle");
     if (titleEl) titleEl.textContent = "PROMOTIONS";

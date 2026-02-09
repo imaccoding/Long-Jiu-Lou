@@ -110,51 +110,17 @@ body{
 }
 
 /* Back button (used in promo pages) */
-.promoPage .backBtn{
-  display: inline-flex;           /* ถูกเปิดเมื่อเป็น detail อยู่แล้ว */
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  height: 38px;
-  padding: 0 14px;
-  border-radius: var(--glass-radius-pill);
-
-  border: 1px solid var(--glass-stroke);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
-  box-shadow: var(--glass-shadow), var(--glass-inner);
-
-  color: rgba(255,255,255,.92);
-  font-weight: 700;
-  letter-spacing: .02em;
-
-  transition: transform .15s ease, border-color .15s ease, filter .15s ease;
-}
-
-.promoPage .backBtn.glass{ /* ผูกกับ class glass */
-  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
-}
-
-/* ลูกศรให้ดู iOS */
-.promoPage .backBtn::before{
-  content:"←";
+.backBtn{
+  appearance: none;
+  border: 0;
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
   font-size: 18px;
-  line-height: 1;
-  transform: translateY(-.5px);
+  cursor: pointer;
 }
-
-/* Hover/Active */
-.promoPage .backBtn:hover{
-  border-color: rgba(217,180,107,.45);
-  filter: brightness(1.03);
-}
-
-.promoPage .backBtn:active{
-  transform: scale(.96);
-}
-
 .backBtn:active{ transform: translateY(1px); }
 
 /* =========================================================
@@ -612,40 +578,32 @@ body.promoPage{
 }
 
 .promoPage .btn{
-  border-radius: var(--glass-radius-pill);
-  padding: 10px 14px;
+  border:0;
+  border-radius: 999px;
+  padding: 8px 12px;
   font-size: 13px;
-  font-weight: 800;
-  letter-spacing: .02em;
-
-  border: 1px solid var(--glass-stroke-soft);
-  background: rgba(255,255,255,.08);
-  box-shadow: 0 10px 26px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.20);
-
-  color: rgba(255,255,255,.92);
-  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
-
-  transition: transform .15s ease, border-color .15s ease, filter .15s ease;
+  font-weight: 600;
+  letter-spacing: .1px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  text-decoration:none;
+  user-select:none;
 }
 
-.promoPage .btn:active{
-  transform: scale(.97);
-}
-
-/* Share: เน้นขึ้นเล็กน้อย (แต่ยังเป็น glass) */
 .promoPage .btnShare{
-  background:
-    linear-gradient(135deg, rgba(178,13,26,.40), rgba(217,180,107,.20)),
-    rgba(255,255,255,.08);
-  border-color: rgba(217,180,107,.22);
+  background: rgba(151, 5, 5, 0.95);
+  color: #ffffff;
 }
-
-/* Copy: glass ใส ๆ */
 .promoPage .btnCopy{
   background: rgba(255,255,255,.08);
-  border-color: rgba(255,255,255,.14);
+  color: var(--promo-text);
+  border: 1px solid rgba(255,255,255,.10);
 }
+.promoPage .btnShare:hover{ filter: brightness(1.05); }
+.promoPage .btnShare:active{ transform: translateY(1px); }
+
 /* Toast */
 .promoPage .toast{
   position: fixed;

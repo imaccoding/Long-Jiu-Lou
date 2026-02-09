@@ -396,41 +396,56 @@ function initPromotionPage(){
   if (!document.body.classList.contains("promoPage")) return;
 
   // ---------- CONFIG ----------
-  const PROMOTIONS = [
-    {
-      id: "a1",
-      title: "โปรโมชั่นสำหรับสมาชิก",
-      imageSrc: "images/pro-feb/1.jpg",
-      detail:
-        "• สมัครสมาชิกใหม่วันนี้ ลดทันที 10% ต่อใบเสร็จ\n" +
-        "• สำหรับสมาชิกเดิม ลดทันที 5% ต่อใบเสร็จ\n" +
-        "• สอบถามเมนูที่ร่วมรายการได้ที่หน้าร้านหรือแชท",
-      start: "2026-02-06 13:45",
-      end:   "2027-01-01 10:00",
-    },
-    {
-      id: "a2",
-      title: "โปรโมชั่นเดือนกุมภาพันธ์",
-      imageSrc: "images/pro-feb/2.jpg",
-      detail:
-        "• ทานอาหารครบ 1,200 บาท\n" +
-        "• รับฟรี ซาลาเปาส้ม\n" +
-        "• โปรโมชั่นนี้ ใช้ได้เฉพาะเดือนกุมภาพันธ์นี้ เท่านั้น",
-      start: "2026-02-01 00:00",
-      end:   "2026-02-28 22:00",
-    },
-    {
-      id: "a3",
-      title: "จับอั่งเปาฟรี!",
-      imageSrc: "images/pro-feb/3.jpg",
-      detail:
-        "• เมื่อทานอาหารครบ 3,000 บาท\n" +
-        "• รับฟรีอั่งเปาส่วนลด\n" +
-        "• ระยะเวลา 15 - 18 กุมภาพันธ์นี้ เท่านั้น",
-      start: "2026-02-15 00:00",
-      end:   "2026-02-18 22:00",
-    },
-  ];
+const PROMOTIONS = [
+  {
+    id: "a1",
+    title: "โปรโมชั่นสำหรับสมาชิก",
+    imageSrc: "images/pro-feb/1.jpg",
+    lines: [
+      "สมัครสมาชิกใหม่วันนี้ ลดทันที 10% ต่อใบเสร็จ",
+      "สำหรับสมาชิกเดิม ลดทันที 5% ต่อใบเสร็จ",
+      "สอบถามเมนูที่ร่วมรายการได้ที่หน้าร้านหรือแชท",
+    ],
+    start: "2026-02-06 13:45",
+    end:   "2027-01-01 10:00",
+  },
+  {
+    id: "a2",
+    title: "โปรโมชั่นเดือนกุมภาพันธ์",
+    imageSrc: "images/pro-feb/2.jpg",
+    lines: [
+      "ทานอาหารครบ 1,200 บาท",
+      "รับฟรี ซาลาเปาส้ม",
+      "โปรโมชั่นนี้ ใช้ได้เฉพาะเดือนกุมภาพันธ์นี้ เท่านั้น",
+    ],
+    start: "2026-02-01 00:00",
+    end:   "2026-02-28 22:00",
+  },
+  {
+    id: "a3",
+    title: "โปรโมชั่นวันวาเลนไทน์",
+    imageSrc: "images/pro-feb/3.jpg",
+    lines: [
+      "มาถึงคู่รักหรือครอบครัวฟรี ซาลาเปารูปหัวใจไส้สตรอว์เบอร์รี่",
+      "ระยะเวลา 13 - 15 กุมภาพันธ์นี้ เท่านั้น",
+    ],
+    start: "2026-02-13 00:00",
+    end:   "2026-02-15 22:00",
+  },
+  {
+    id: "a4",
+    title: "จับอั่งเปาฟรี!",
+    imageSrc: "images/pro-feb/4.jpg",
+    lines: [
+      "เมื่อทานอาหารครบ 3,000 บาท",
+      "รับฟรีอั่งเปาส่วนลด",
+      "ระยะเวลา 15 - 18 กุมภาพันธ์นี้ เท่านั้น",
+    ],
+    start: "2026-02-15 00:00",
+    end:   "2026-02-18 22:00",
+  },
+];
+
 
   const $ = (id) => document.getElementById(id);
   const params = new URLSearchParams(location.search);
@@ -498,7 +513,6 @@ function initPromotionPage(){
   function renderDetail(p) {
   hideAll();
 
-  // ✅ ใช้ data-promo-id
   const card = document.querySelector(`.promoCard[data-promo-id="${p.id}"]`);
   if (!card) {
     document.getElementById("promoError")?.removeAttribute("hidden");
@@ -507,25 +521,29 @@ function initPromotionPage(){
 
   card.hidden = false;
 
-  // อัปเดตหัวข้อบน topbar
+  // topbar title
   const pageTitle = document.getElementById("pageTitle");
   if (pageTitle) pageTitle.textContent = p.title;
 
-  // รูป
+  // image
   const img = card.querySelector(".promoImg");
   if (img) img.src = p.imageSrc;
 
-  // title ใน card
+  // card title
   const titleEl = card.querySelector(".promoTitle");
   if (titleEl) titleEl.textContent = p.title;
 
-  // detail -> ใส่ลง <p> ที่มี
-  const lines = String(p.detail || "").split("\n").filter(Boolean);
-  card.querySelectorAll(".promoDetail").forEach((el, i) => {
-    el.textContent = lines[i] || "";
-    el.hidden = !lines[i];
+  // details (เติมตามจำนวน <p> ที่มี)
+  const detailEls = card.querySelectorAll(".promoDetail");
+  const lines = Array.isArray(p.lines) ? p.lines : [];
+
+  detailEls.forEach((el, i) => {
+    const text = lines[i] || "";
+    el.textContent = text;
+    el.hidden = !text;
   });
 }
+
 
 
   function renderList(list){

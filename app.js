@@ -435,6 +435,7 @@ function initPromotionPage(){
   const $ = (id) => document.getElementById(id);
   const params = new URLSearchParams(location.search);
   const promoId = params.get("id");
+  document.body.classList.toggle("is-detail", !!id);
 
   // ---------- Time helpers ----------
   const thTimeToMs = (str) =>
@@ -494,26 +495,38 @@ function initPromotionPage(){
   });
 
   // ---------- Render ----------
-  function renderDetail(p){
-    hideAll();
-    const card = $(p.id);
-    if (!card) {
-      $("promoError")?.removeAttribute("hidden");
-      return;
-    }
+  function renderDetail(p) {
+  hideAll();
 
-    card.hidden = false;
-    $("pageTitle").textContent = p.title;
-
-    card.querySelector(".promoImg").src = p.imageSrc;
-    card.querySelector(".promoTitle").textContent = p.title;
-
-    const lines = p.detail.split("\n");
-    card.querySelectorAll(".promoDetail").forEach((el,i)=>{
-      el.textContent = lines[i] || "";
-      el.hidden = !lines[i];
-    });
+  // ✅ ใช้ data-promo-id
+  const card = document.querySelector(`.promoCard[data-promo-id="${p.id}"]`);
+  if (!card) {
+    document.getElementById("promoError")?.removeAttribute("hidden");
+    return;
   }
+
+  card.hidden = false;
+
+  // อัปเดตหัวข้อบน topbar
+  const pageTitle = document.getElementById("pageTitle");
+  if (pageTitle) pageTitle.textContent = p.title;
+
+  // รูป
+  const img = card.querySelector(".promoImg");
+  if (img) img.src = p.imageSrc;
+
+  // title ใน card
+  const titleEl = card.querySelector(".promoTitle");
+  if (titleEl) titleEl.textContent = p.title;
+
+  // detail -> ใส่ลง <p> ที่มี
+  const lines = String(p.detail || "").split("\n").filter(Boolean);
+  card.querySelectorAll(".promoDetail").forEach((el, i) => {
+    el.textContent = lines[i] || "";
+    el.hidden = !lines[i];
+  });
+}
+
 
   function renderList(list){
     hideAll();

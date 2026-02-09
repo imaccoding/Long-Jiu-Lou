@@ -499,6 +499,21 @@ body.promoPage{
   gap:10px;
 }
 
+/* =========================
+   PROMOTION PAGE TOPBAR
+========================= */
+.promoPage .topbar{
+  justify-content: flex-start;   /* title ไปซ้าย */
+  gap: 10px;
+}
+
+/* ปุ่ม back ซ่อนในหน้า list */
+.promoPage .backBtn{ display: none; }
+
+/* แสดง back เฉพาะตอนเข้า detail */
+.promoPage.is-detail .backBtn{ display: inline-flex; }
+
+
 /* Title (promo) */
 .promoPage .title{
   margin:0;

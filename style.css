@@ -1,254 +1,273 @@
+/* =========================================================
+   Theme Tokens
+========================================================= */
 :root{
   --bg: #070708;
   --panel: rgba(18,18,20,.72);
   --stroke: rgba(255,255,255,.08);
   --text: rgba(255,255,255,.92);
   --muted: rgba(255,255,255,.60);
-  --accent: #B20D1A;    /* modern crimson */
-  --gold: #D9B46B;      /* champagne gold */
+  --accent: #B20D1A; /* modern crimson */
+  --gold: #D9B46B;   /* champagne gold */
   --radius: 16px;
 }
 
+/* =========================================================
+   Base / Reset
+========================================================= */
 *{ box-sizing: border-box; }
-html,body{ height:100%; }
+html, body{ height: 100%; }
+
 body{
-  margin:0;
+  margin: 0;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  background: radial-gradient(1200px 800px at 20% 10%, rgba(178,13,26,.22), transparent 55%),
-              radial-gradient(900px 600px at 80% 20%, rgba(217,180,107,.15), transparent 60%),
-              var(--bg);
   color: var(--text);
-  overflow: hidden; /* สำคัญ: ให้ scroll อยู่ใน viewer */
+
+  background:
+    radial-gradient(1200px 800px at 20% 10%, rgba(178,13,26,.22), transparent 55%),
+    radial-gradient(900px 600px at 80% 20%, rgba(217,180,107,.15), transparent 60%),
+    var(--bg);
+
+  /* สำคัญ: ให้ scroll อยู่ใน #viewer (ไม่ใช่ body) */
+  overflow: hidden;
 }
 
-/* Top bar */
+/* =========================================================
+   Top Bar
+========================================================= */
 .topbar{
   position: fixed;
   top: 0; left: 0; right: 0;
-  padding: 12px 14px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 12px;
   z-index: 20;
+
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 
   background: linear-gradient(to bottom, rgba(0,0,0,.72), rgba(0,0,0,.08));
   backdrop-filter: blur(10px);
+
+  /* กันกรณีส่วนอื่นจับคลิกทับ */
+  pointer-events: auto;
 }
 
-.backBtn{
-  appearance:none;
-  border:0;
-  background:rgba(255,255,255,.08);
-  color:#fff;
-  border-radius:999px;
-  width:32px;
-  height:32px;
-  font-size:18px;
-  cursor:pointer;
-}
-.backBtn:active{ transform: translateY(1px); }
+.brand{ display: flex; align-items: center; gap: 10px; }
 
-
-.brand{ display:flex; align-items:center; gap:10px; }
 .logo{
-  width: 40px; height: 40px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
   filter: drop-shadow(0 10px 24px rgba(0,0,0,.55));
 }
+
 .brandText{ line-height: 1.1; }
+
 .brandName{
   font-weight: 700;
   letter-spacing: .12em;
   font-size: 12px;
   text-transform: uppercase;
 }
+
 .brandSub{
   margin-top: 4px;
   font-size: 12px;
   color: var(--muted);
 }
 
-.tools{ display:flex; align-items:center; gap:10px; }
+.tools{ display: flex; align-items: center; gap: 10px; }
+
 .pageInfo{
   padding: 8px 10px;
+  min-width: 64px;
+  text-align: center;
+
   border: 1px solid var(--stroke);
   border-radius: 999px;
   background: rgba(0,0,0,.25);
+
   font-size: 12px;
   color: var(--muted);
-  min-width: 64px;
-  text-align:center;
 }
+
 .iconBtn{
-  width: 40px; height: 40px;
+  width: 40px;
+  height: 40px;
+
   border-radius: 999px;
   border: 1px solid var(--stroke);
   background: rgba(0,0,0,.25);
   color: var(--text);
+
   cursor: pointer;
   transition: transform .12s ease, border-color .12s ease;
 }
-.iconBtn:active{ transform: scale(.96); border-color: rgba(217,180,107,.35); }
+.iconBtn:active{
+  transform: scale(.96);
+  border-color: rgba(217,180,107,.35);
+}
 
-/* Hint */
+/* Back button (used in promo pages) */
+.backBtn{
+  appearance: none;
+  border: 0;
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.backBtn:active{ transform: translateY(1px); }
+
+/* =========================================================
+   Hint Bubble
+========================================================= */
 .hint{
   position: fixed;
   top: 64px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 15;
+
   padding: 10px 14px;
   border-radius: 999px;
+
   background: rgba(0,0,0,.35);
   border: 1px solid rgba(217,180,107,.18);
   color: rgba(255,255,255,.75);
+
   font-size: 13px;
-  z-index: 15;
   backdrop-filter: blur(10px);
+
   transition: opacity .35s ease, transform .35s ease;
 }
 .hint.hide{
   opacity: 0;
-  transition: opacity .25s ease, transform .25s ease;
   transform: translateX(-50%) translateY(-6px);
-  pointer-events:none;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
 }
 
-/* Viewer (scroll-snap) */
+/* =========================================================
+   Viewer (scroll-snap)
+========================================================= */
 .viewer{
   position: fixed;
   inset: 0;
+
   padding-top: 60px;
   padding-bottom: 60px;
-  scroll-padding-top: 60px;
-  scroll-padding-bottom: 60px;
+
   overflow-y: auto;
   scroll-snap-type: y mandatory;
   -webkit-overflow-scrolling: touch;
 
-  /* ✅ สำคัญ: ทำให้ snap คิดระยะเผื่อ top/bottom */
+  /* ทำให้ snap คิดระยะเผื่อ top/bottom */
   scroll-padding-top: 60px;
   scroll-padding-bottom: 60px;
-}
 
+  pointer-events: auto;
+}
 
 .page{
   scroll-snap-align: start;
-  padding: 8px 12px;   /* ⬅ ลด padding */
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  padding: 8px 12px; /* ลด padding เพื่อให้ภาพใหญ่ขึ้น */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
 
 /* ภาพเมนู: ให้เต็มจอแต่ไม่โดนตัด */
 .pageImg{
   width: min(980px, 96vw);
-  max-height: calc(100dvh - 120px); /* ⬅ คุมจาก viewport จริง */
+  max-height: calc(100dvh - 120px);
   object-fit: contain;
+
   border-radius: 14px;
   background: rgba(255,255,255,.02);
   border: 1px solid rgba(255,255,255,.08);
   box-shadow: 0 18px 60px rgba(0,0,0,.60);
 }
 
-
-/* Bottom dots */
-.dots{
-  position: fixed;
-  bottom: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  display:flex;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 999px;
-  background: rgba(0,0,0,.35);
-  border: 1px solid rgba(255,255,255,.08);
-  backdrop-filter: blur(10px);
-  z-index: 20;
-}
-.dot{
-  width: 8px; height: 8px;
-  border-radius: 99px;
-  background: rgba(255,255,255,.35);
-  border: 1px solid rgba(255,255,255,.15);
-  cursor:pointer;
-  transition: transform .12s ease, background .12s ease, width .12s ease;
-}
-.dot.active{
-  background: linear-gradient(90deg, var(--accent), var(--gold));
-  width: 22px;
-  border-color: rgba(217,180,107,.35);
-}
-
-/* desktop: เพิ่มความหรู */
+/* Desktop: เพิ่มความหรู */
 @media (min-width: 900px){
   .brandName{ font-size: 13px; }
   .pageImg{ width: min(1040px, 86vw); }
 }
 
-.dot:active { transform: scale(.92); }
-.dots { box-shadow: 0 18px 60px rgba(0,0,0,.55); }
-
-/* Floating contact icons */
-.contactFab{
+/* =========================================================
+   Bottom Dots
+========================================================= */
+.dots{
   position: fixed;
-  right: 14px;
-  bottom: 86px; /* ไม่ชน dots */
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  z-index: 20;
+
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 30;
+  gap: 10px;
+  padding: 10px 12px;
+
+  border-radius: 999px;
+  background: rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(10px);
+
+  box-shadow: 0 18px 60px rgba(0,0,0,.55);
+
+  pointer-events: auto;
 }
 
-.fab{
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;      
-  overflow: hidden;        
-  padding: 0;              
-  background: none;        
-  box-shadow: 0 12px 35px rgba(0,0,0,.45);
-  display: block;
+.dot{
+  width: 8px;
+  height: 8px;
+  border-radius: 99px;
+
+  background: rgba(255,255,255,.35);
+  border: 1px solid rgba(255,255,255,.15);
+
+  cursor: pointer;
+  transition: transform .12s ease, background .12s ease, width .12s ease;
+}
+.dot:active{ transform: scale(.92); }
+
+.dot.active{
+  width: 22px;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  border-color: rgba(217,180,107,.35);
 }
 
-.fab img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;      
-  display: block;
-}
-
-
-.fab:active{
-transform: scale(.92);
-  box-shadow: 0 10px 30px rgba(0,0,0,.45);
-}
-
-/* Contact toggle FAB */
-/* Contact must be on top of everything */
+/* =========================================================
+   Contact FAB (toggle + menu)
+   - อยู่เหนือทุกอย่าง
+========================================================= */
 .contactWrap{
   position: fixed;
   right: 14px;
-  bottom: 86px;
-  z-index: 99999 !important;
+  bottom: 86px; /* ไม่ชน dots */
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+#contactToggle{
+  position: relative;
+  z-index: 10000;
   pointer-events: auto;
 }
 
 .contactOverlay{
   position: fixed;
   inset: 0;
-  z-index: 99998 !important;
+  z-index: 9998;
   background: rgba(0,0,0,.25);
 }
 
-/* กันกรณี viewer หรือส่วนอื่นจับคลิกทับ */
-.viewer, .dots, .topbar{
-  pointer-events: auto;
-}
-
-
+/* Menu list (hidden -> open) */
 .contactMenu{
   display: flex;
   flex-direction: column;
@@ -256,7 +275,6 @@ transform: scale(.92);
   align-items: flex-end;
   margin-bottom: 10px;
 
-  /* hidden state */
   opacity: 0;
   transform: translateY(10px);
   pointer-events: none;
@@ -277,87 +295,69 @@ transform: scale(.92);
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Main button: "Contact us" */
-.fab.main{
-  height: 46px;
-  padding: 0 14px;
-  border-radius: 999px;
-  font-weight: 700;
-  letter-spacing: .02em;
-  color: rgba(255,255,255,.92);
-  background: linear-gradient(90deg, rgba(178,13,26,.95), rgba(217,180,107,.92));
-  box-shadow: 0 14px 40px rgba(0,0,0,.55);
-  transition: transform .12s ease, filter .12s ease;
-}
-.fab.main:active{ transform: scale(.96); }
-
 /* Sub buttons: circle icons */
 .fab.sub{
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  overflow: hidden;         /* ให้ไอคอนเต็มวงกลม */
+  overflow: hidden;
   padding: 0;
+
   background: rgba(0,0,0,.35);
   box-shadow: 0 12px 35px rgba(0,0,0,.45);
 }
 .fab.sub img{
   width: 100%;
   height: 100%;
-  object-fit: cover;        /* เต็มวงกลม */
+  object-fit: cover;
   display: block;
 }
 
-.contactWrap{ position:fixed; right:14px; bottom:86px; z-index:9999; }
-.contactOverlay{ position:fixed; inset:0; z-index:9998; background:rgba(0,0,0,.25); }
-
-.contactMenu{
-  display:flex; flex-direction:column; gap:10px; align-items:flex-end; margin-bottom:10px;
-  opacity:0; transform:translateY(10px); pointer-events:none;
-  transition:opacity .18s ease, transform .18s ease;
-}
-.contactWrap.open .contactMenu{
-  opacity:1; transform:translateY(0); pointer-events:auto;
-}
-/* Main Contact button = custom icon */
+/* Main button: custom icon circle (คงตามท้ายไฟล์เดิมที่ override) */
 .fab.main{
   width: 56px;
   height: 56px;
   border-radius: 50%;
   overflow: hidden;
   padding: 0;
+
   background: rgba(0,0,0,.35);
   border: 1px solid rgba(255,255,255,.10);
   box-shadow: 0 12px 35px rgba(0,0,0,.45);
+
   display: grid;
   place-items: center;
 }
-
-.fab.main:active{
+.fab:active{
   transform: scale(.92);
+  box-shadow: 0 10px 30px rgba(0,0,0,.45);
 }
 
-#contactToggle{ position: relative; z-index: 10000; pointer-events: auto; }
-
-/* ===== Fullscreen Image Modal ===== */
+/* =========================================================
+   Fullscreen Image Modal
+========================================================= */
 .img-modal{
   position: fixed;
   inset: 0;
   z-index: 999999;
-  background: rgba(0,0,0,.65);  /* ✅ ฉากหลังมืด */
+
   display: none;
   padding: 20px;
+  background: rgba(0,0,0,.65);
 }
-
-.img-modal.open{ display: grid; place-items: center; }
+.img-modal.open{
+  display: grid;
+  place-items: center;
+}
 
 .img-modal-body{
   max-width: min(96vw, 920px);
   max-height: 86vh;
   border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 18px 60px rgba(0,0,0,.55);
+
   background: #111;
+  box-shadow: 0 18px 60px rgba(0,0,0,.55);
 }
 
 #imgModalSrc{
@@ -365,7 +365,7 @@ transform: scale(.92);
   width: 100%;
   height: auto;
   max-height: 86vh;
-  object-fit: contain; /* ✅ เห็นรูปเต็ม ไม่โดนครอป */
+  object-fit: contain;
   background: #111;
 }
 
@@ -373,38 +373,48 @@ transform: scale(.92);
   position: fixed;
   top: 14px;
   right: 14px;
+
   width: 44px;
   height: 44px;
   border-radius: 999px;
+
   border: 1px solid rgba(255,255,255,.18);
   background: rgba(0,0,0,.35);
   color: rgba(255,255,255,.95);
   font-size: 18px;
+
   cursor: pointer;
 }
 
-/* ===== Announcement Modal ===== */
+/* =========================================================
+   Announcement Modal
+========================================================= */
 .announce-overlay{
   position: fixed;
   inset: 0;
-  z-index: 999999;              /* กันโดนทับ */
-  background: rgba(0,0,0,.65);
+  z-index: 999999;
+
   display: grid;
   place-items: center;
   padding: 16px;
-}
 
+  background: rgba(0,0,0,.65);
+}
 .announce-overlay[hidden]{ display: none !important; }
 
 .announce-card{
   position: relative;
   width: min(92vw, 560px);
   max-height: 86vh;
+
   border-radius: 18px;
   overflow: hidden;
   background: #111;
+
   box-shadow: 0 18px 60px rgba(0,0,0,.55);
   z-index: 1000000;
+
+  touch-action: manipulation;
 }
 
 .announce-img{
@@ -412,7 +422,7 @@ transform: scale(.92);
   width: 100%;
   height: auto;
   max-height: 86vh;
-  object-fit: contain;          /* ไม่ครอป */
+  object-fit: contain; /* ไม่ครอป */
   background: #111;
 }
 
@@ -420,40 +430,384 @@ transform: scale(.92);
   position: absolute;
   top: 10px;
   right: 10px;
+
   width: 44px;
   height: 44px;
   border-radius: 999px;
+
   border: 1px solid rgba(255,255,255,.18);
   background: rgba(0,0,0,.35);
   color: rgba(255,255,255,.95);
   font-size: 18px;
+
   cursor: pointer;
   z-index: 1000001;
 }
-
 .announce-close:active{ transform: scale(.92); }
 
-/* ล็อกพื้นหลังตอนเปิด */
+/* Lock background when announcement is open */
 body.announce-open{
   overflow: hidden;
 }
-.announce-card, .announce-close { touch-action: manipulation; }
-
 /* ล็อกการเลื่อนเมนูตอนประกาศเปิด */
 body.announce-open #viewer{
   overflow: hidden !important;
   scroll-snap-type: none !important;
   overscroll-behavior: contain;
 }
-
 /* ให้ overlay รับ gesture แทน */
 body.announce-open .announce-overlay{
   touch-action: none;
 }
 
+/* =========================================================
+   Page: Promotion (promotion.html)
+   Usage: <body class="promoPage">
+========================================================= */
+body.promoPage{
+  /* ใช้ theme เดิมของโปรโมชัน */
+  --promo-bg:#0b0c10;
+  --promo-text:#f6f6f6;
+  --promo-muted:rgba(246,246,246,.74);
+  --promo-gold:#caa45a;
+  --promo-radius:18px;
+
+  color: var(--promo-text);
+  background:
+    radial-gradient(1100px 540px at 30% -10%, rgba(202,164,90,.18), transparent 60%),
+    radial-gradient(900px 520px at 85% 0%, rgba(160,20,30,.28), transparent 55%),
+    var(--promo-bg);
+
+  /* หน้านี้ต้องเลื่อนตามปกติ ไม่เหมือนหน้าเมนูที่ lock scroll */
+  overflow: auto;
+}
+
+/* Topbar (promo/contact ใช้ร่วมกัน) */
+.promoPage .topbar,
+.contactPage .topbar{
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  padding: 14px 14px calc(14px + env(safe-area-inset-top));
+  background: linear-gradient(to bottom, rgba(11,12,16,.90), rgba(11,12,16,.55));
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  backdrop-filter: blur(10px);
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+/* Title (promo) */
+.promoPage .title{
+  margin:0;
+  font-size: 14px;
+  letter-spacing:.6px;
+  color: rgba(246,246,246,.92);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Wrap */
+.promoPage .wrap{
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 14px 14px 26px;
+}
+
+/* Card */
+.promoPage .card{
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: var(--promo-radius);
+  overflow:hidden;
+  box-shadow: 0 18px 60px rgba(0,0,0,.45);
+  margin-bottom: 12px;
+}
+
+.promoPage .hero{
+  width: 100%;
+  display: block;
+  height: auto;
+  object-fit: contain;
+  background: #0f1117;
+}
+
+.promoPage .content{ padding: 14px 14px 16px; }
+
+.promoPage .promoHeading{
+  margin: 0 0 8px;
+  font-size: 18px;
+  line-height:1.25;
+  letter-spacing:.2px;
+}
+
+.promoPage .detail{
+  margin:0;
+  color: var(--promo-muted);
+  line-height: 1.7;
+  font-size: 14px;
+  white-space: pre-line;
+}
+
+.promoPage .actions{
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.promoPage .btn{
+  border:0;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .1px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  text-decoration:none;
+  user-select:none;
+}
+
+.promoPage .btnShare{
+  background: rgba(151, 5, 5, 0.95);
+  color: #ffffff;
+}
+.promoPage .btnCopy{
+  background: rgba(255,255,255,.08);
+  color: var(--promo-text);
+  border: 1px solid rgba(255,255,255,.10);
+}
+.promoPage .btnShare:hover{ filter: brightness(1.05); }
+.promoPage .btnShare:active{ transform: translateY(1px); }
+
+/* Toast */
+.promoPage .toast{
+  position: fixed;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  background: rgba(20,22,28,.92);
+  border: 1px solid rgba(255,255,255,.10);
+  color: rgba(246,246,246,.92);
+  padding: 10px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  opacity: 0;
+  pointer-events:none;
+  transition: opacity .18s ease, transform .18s ease;
+}
+.promoPage .toast.show{
+  opacity: 1;
+  transform: translateX(-50%) translateY(-6px);
+}
+
+/* Error */
+.promoPage .error{
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(160,20,30,.18);
+  color: rgba(246,246,246,.92);
+}
+
+/* Promo List item */
+.promoPage .promoItem{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(17,19,24,.60);
+  text-decoration:none;
+  color: inherit;
+}
+
+.promoPage .promoThumb{
+  width: 74px;
+  height: 74px;
+  border-radius: 14px;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,.08);
+  background: #0f1117;
+}
+
+.promoPage .promoMeta{ flex:1; min-width:0; }
+
+.promoPage .promoName{
+  font-weight: 800;
+  letter-spacing:.2px;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.promoPage .promoHint{
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgba(246,246,246,.65);
+}
+
+.promoPage .promoGo{
+  font-size: 22px;
+  color: rgba(202,164,90,.95);
+  padding: 0 6px;
+}
+
+/* Footer */
+.promoPage footer{
+  margin-top: 10px;
+  text-align:center;
+  font-size: 12px;
+  color: rgba(246,246,246,.5);
+}
+
+
+/* =========================================================
+   Page: Contact (contact.html)
+   Usage: <body class="contactPage">
+========================================================= */
+body.contactPage{
+  --contact-bg:#0b0c10;
+  --contact-text:#f6f6f6;
+  --contact-muted:rgba(246,246,246,.72);
+  --contact-gold:#caa45a;
+  --contact-radius:18px;
+
+  color: var(--contact-text);
+  background:
+    radial-gradient(1100px 540px at 30% -10%, rgba(202,164,90,.18), transparent 60%),
+    radial-gradient(900px 520px at 85% 0%, rgba(160,20,30,.28), transparent 55%),
+    var(--contact-bg);
+
+  /* contact page เลื่อนตามปกติ */
+  overflow: auto;
+}
+
+.contactPage .title{
+  margin:0;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+
+  color: rgba(246,246,246,.92);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contactPage .wrap{
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.contactPage .card{
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: var(--contact-radius);
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 18px 60px rgba(0,0,0,.45);
+}
+
+.contactPage .heading{
+  font-size: 20px;
+  margin: 0 0 6px;
+  text-align: center;
+}
+.contactPage .desc{
+  margin:0;
+  font-size: 15px;
+  color: var(--contact-muted);
+  line-height:1.5;
+  text-align: center;
+}
+
+.contactPage .contactList{
+  display:grid;
+  gap:12px;
+  margin-top: 12px;
+}
+
+.contactPage .contactItem{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(17,19,24,.6);
+  border: 1px solid rgba(255,255,255,.08);
+  text-decoration:none;
+  color: inherit;
+}
+
+.contactPage .meta{
+  flex:1;
+  min-width:0;
+}
+.contactPage .meta strong{
+  display:block;
+  font-size: 15px;
+  letter-spacing:.2px;
+}
+.contactPage .meta span{
+  font-size: 13px;
+  color: var(--contact-muted);
+}
+
+.contactPage .arrow{
+  font-size: 22px;
+  color: var(--contact-gold);
+}
+
+/* Icon image circle */
+.contactPage .iconWrap{
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+  background: rgba(202,164,90,.18);
+}
+.contactPage .iconWrap img{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transform: scale(1.18);
+  transform-origin: center;
+}
+
+.contactPage footer{
+  margin-top: 10px;
+  text-align:center;
+  font-size: 12px;
+  color: rgba(246,246,246,.5);
+}
+
+/* =========================================================
+   Footer (for pages that include footer inside viewer)
+========================================================= */
 footer{
-      margin-top: 10px;
-      text-align:center;
-      font-size: 12px;
-      color: rgba(246,246,246,.5);
-    }
+  margin-top: 10px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(246,246,246,.5);
+}

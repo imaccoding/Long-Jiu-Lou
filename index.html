@@ -3,21 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <link rel="apple-touch-icon" href="images/Logo-01.webp">
-<link rel="shortcut icon" href="images/Logo-01.webp" type="image/webp">
-
-  <link rel="apple-touch-icon" href="favicon.webp">
 
   <title>Menu | Long Jiu Lou</title>
-  <link rel="preconnect" href="." />
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon" href="images/Logo-01.webp" />
+  <link rel="icon" type="image/webp" href="images/Logo-01.webp" />
+
+  <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <!-- Top Bar -->
+  <!-- =========================
+       Top Bar
+  ========================== -->
   <header class="topbar">
     <div class="brand">
-      <img class="logo" src="images/Logo-01.webp" alt="Logo" />
+      <img class="logo" src="images/Logo-01.webp" alt="Long Jiu Lou Logo" />
       <div class="brandText">
         <div class="brandName">Menu | Long Jiu Lou</div>
         <div class="brandSub">เมนูอร่อยพร้อมเสิร์ฟ</div>
@@ -25,69 +28,104 @@
     </div>
 
     <div class="tools">
-  <div class="pageInfo"><span id="pageNow">1</span>/<span id="pageTotal">6</span></div>
-</div>
-
+      <!-- Current page / total pages (อัปเดตโดย app.js) -->
+      <div class="pageInfo">
+        <span id="pageNow">1</span>/<span id="pageTotal">6</span>
+      </div>
+    </div>
   </header>
 
-  <!-- Hint -->
+  <!-- =========================
+       Swipe Hint
+  ========================== -->
   <div class="hint" id="hint">ปัดขึ้น–ลง เพื่อดูเมนู</div>
 
-  <!-- Viewer -->
-  <main class="viewer" id="viewer">
-  <section class="page">
-  <div class="pageMedia">
-    <img class="pageImg" src="images/menu/menu-1.jpg" alt="Menu 1">
-</section>
-  <section class="page">
-  <div class="pageMedia">
-    <img class="pageImg" src="images/menu/menu-2.jpg" alt="Menu 1">  
+  <!-- =========================
+       Viewer (Scroll-Snap Pages)
+  ========================== -->
+  <main class="viewer" id="viewer" aria-label="Menu viewer">
+    <!-- Page 1 -->
+    <section class="page" aria-label="Menu page 1">
+      <div class="pageMedia">
+        <img class="pageImg" src="images/menu/menu-1.jpg" alt="Menu page 1" />
+      </div>
+    </section>
+
+    <!-- Page 2 -->
+    <section class="page" aria-label="Menu page 2">
+      <div class="pageMedia">
+        <img class="pageImg" src="images/menu/menu-2.jpg" alt="Menu page 2" />
+      </div>
+    </section>
+
+    <!-- Page 3 -->
+    <section class="page" aria-label="Menu page 3">
+      <div class="pageMedia">
+        <img class="pageImg" src="images/menu/menu-3.jpg" alt="Menu page 3" />
+      </div>
+    </section>
+
+    <!-- Page 4 -->
+    <section class="page" aria-label="Menu page 4">
+      <div class="pageMedia">
+        <img class="pageImg" src="images/menu/menu-4.jpg" alt="Menu page 4" />
+      </div>
+    </section>
+
+    <!-- Page 5 -->
+    <section class="page" aria-label="Menu page 5">
+      <div class="pageMedia">
+        <img class="pageImg" src="images/menu/menu-5.jpg" alt="Menu page 5" />
+      </div>
+    </section>
+
+    <!-- Page 6 -->
+    <section class="page" aria-label="Menu page 6">
+      <div class="pageMedia">
+        <img class="pageImg" src="images/menu/menu-6.jpg" alt="Menu page 6" />
+      </div>
+    </section>
+
+    <!-- Footer (อยู่ใน flow ของหน้า/ท้าย viewer) -->
+    <footer class="siteFooter">
+      © Long Jiu Lou Chinese Restaurant
+    </footer>
+  </main>
+
+  <!-- Dots Navigation (สร้าง/อัปเดตโดย app.js) -->
+  <nav class="dots" id="dots" aria-label="Page dots"></nav>
+
+  <!-- =========================
+       Holiday / Announcement Modal
+  ========================== -->
+  <div id="announceOverlay" class="announce-overlay" hidden aria-hidden="true">
+    <div class="announce-card" role="dialog" aria-modal="true" aria-label="Announcement">
+      <button
+        id="announceClose"
+        class="announce-close"
+        type="button"
+        aria-label="ปิด"
+      >
+        ✕
+      </button>
+
+      <!-- ถ้ามี linkToFull จะใช้ <a> ครอบรูป -->
+      <a
+        id="announceLink"
+        class="announce-link"
+        href="#"
+        rel="noopener"
+        hidden
+      >
+        <img id="announceImgLink" class="announce-img" alt="" />
+      </a>
+
+      <!-- ถ้าไม่มีลิงก์ จะใช้ img ปกติ -->
+      <img id="announceImg" class="announce-img" alt="" hidden />
+    </div>
   </div>
-</section>
-  <section class="page">
-  <div class="pageMedia">
-    <img class="pageImg" src="images/menu/menu-3.jpg" alt="Menu 1">
-  </div>
-</section>
-  <section class="page">
-  <div class="pageMedia">
-    <img class="pageImg" src="images/menu/menu-4.jpg" alt="Menu 1">
-  </div>
-</section>
-  <section class="page">
-  <div class="pageMedia">
-    <img class="pageImg" src="images/menu/menu-5.jpg" alt="Menu 1">
-  </div>
-</section>
-  <section class="page">
-  <div class="pageMedia">
-    <img class="pageImg" src="images/menu/menu-6.jpg" alt="Menu 1">
-  </div>
-</section>
-<footer>
-    © Long Jiu Lou Chinese Restaurant
-  </footer>
-</main>
 
-<nav class="dots" id="dots" aria-label="Page dots"></nav>
-
-</div>
-
-<!-- Holiday / Announcement Modal -->
-<div id="announceOverlay" class="announce-overlay" hidden aria-hidden="true">
-  <div class="announce-card" role="dialog" aria-modal="true" aria-label="Announcement">
-    <button id="announceClose" class="announce-close" type="button" aria-label="ปิด">✕</button>
-
-    <!-- ถ้าไม่มี linkToFull จะใช้ <img> ตรง ๆ -->
-    <a id="announceLink" class="announce-link" href="#"  rel="noopener" hidden>
-      <img id="announceImgLink" class="announce-img" alt="" />
-    </a>
-
-    <img id="announceImg" class="announce-img" alt="" hidden />
-  </div>
-</div>
-
-
+  <!-- Scripts -->
   <script src="app.js"></script>
 </body>
 </html>

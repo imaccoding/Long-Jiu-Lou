@@ -435,7 +435,7 @@ function initPromotionPage(){
   const $ = (id) => document.getElementById(id);
   const params = new URLSearchParams(location.search);
   const promoId = params.get("id");
-  document.body.classList.toggle("is-detail", !!id);
+  document.body.classList.toggle("is-detail", !!promoId);
 
   // ---------- Time helpers ----------
   const thTimeToMs = (str) =>
@@ -530,7 +530,8 @@ function initPromotionPage(){
 
   function renderList(list){
     hideAll();
-    $("pageTitle").textContent = "PROMOTIONS";
+    const titleEl = $("pageTitle");
+    if (titleEl) titleEl.textContent = "PROMOTIONS";
 
     if (!list.length){
       $("promoEmpty")?.removeAttribute("hidden");
@@ -543,7 +544,7 @@ function initPromotionPage(){
 
     list.forEach(p=>{
       const a = document.createElement("a");
-      a.href = `promotion.html?id=${p.id}`;
+      a.href = `promotion.html?id=${encodeURIComponent(p.id)}`;
       a.className = "promoItem";
       a.innerHTML = `
         <img class="promoThumb" src="${p.imageSrc}" alt="">

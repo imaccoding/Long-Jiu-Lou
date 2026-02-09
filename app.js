@@ -271,6 +271,14 @@
 })();
 
 
+const backBtn = document.getElementById("backBtn");
+if (backBtn) {
+  backBtn.addEventListener("click", () => {
+    if (history.length > 1) history.back();
+    else location.href = "promotion.html";
+  });
+}
+
 // ---------- Promotions (FIXED) ----------
 (() => {
   // อ่าน id ตั้งแต่แรก ป้องกัน reference ก่อนประกาศ

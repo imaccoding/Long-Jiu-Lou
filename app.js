@@ -9,8 +9,16 @@
 /* =========================================================
    Utilities
 ========================================================= */
-const qs = (sel, root = document) => root.querySelector(sel);
-const qsa = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+const qs = (sel, root = document) => {
+  if (!root || !root.querySelector) return null;
+  return root.querySelector(sel);
+};
+
+const qsa = (sel, root = document) => {
+  if (!root || !root.querySelectorAll) return [];
+  return Array.from(root.querySelectorAll(sel));
+};
+
 
 /**
  * Parse "YYYY-MM-DD HH:mm" as Thailand time (+07:00) -> ms
@@ -379,3 +387,174 @@ function renderList(activePromos, promoId) {
     wrap.appendChild(a);
   });
 }
+
+// ===============================
+// Promotion Page
+// ===============================
+function initPromotionPage(){
+  // guard: รันเฉพาะหน้า promo
+  if (!document.body.classList.contains("promoPage")) return;
+
+  // ---------- CONFIG ----------
+  const PROMOTIONS = [
+    {
+      id: "a1",
+      title: "โปรโมชั่นสำหรับสมาชิก",
+      imageSrc: "images/pro-feb/1.jpg",
+      detail:
+        "• สมัครสมาชิกใหม่วันนี้ ลดทันที 10% ต่อใบเสร็จ\n" +
+        "• สำหรับสมาชิกเดิม ลดทันที 5% ต่อใบเสร็จ\n" +
+        "• สอบถามเมนูที่ร่วมรายการได้ที่หน้าร้านหรือแชท",
+      start: "2026-02-06 13:45",
+      end:   "2027-01-01 10:00",
+    },
+    {
+      id: "a2",
+      title: "โปรโมชั่นเดือนกุมภาพันธ์",
+      imageSrc: "images/pro-feb/2.jpg",
+      detail:
+        "• ทานอาหารครบ 1,200 บาท\n" +
+        "• รับฟรี ซาลาเปาส้ม\n" +
+        "• โปรโมชั่นนี้ ใช้ได้เฉพาะเดือนกุมภาพันธ์นี้ เท่านั้น",
+      start: "2026-02-01 00:00",
+      end:   "2026-02-28 22:00",
+    },
+    {
+      id: "a3",
+      title: "จับอั่งเปาฟรี!",
+      imageSrc: "images/pro-feb/3.jpg",
+      detail:
+        "• เมื่อทานอาหารครบ 3,000 บาท\n" +
+        "• รับฟรีอั่งเปาส่วนลด\n" +
+        "• ระยะเวลา 15 - 18 กุมภาพันธ์นี้ เท่านั้น",
+      start: "2026-02-15 00:00",
+      end:   "2026-02-18 22:00",
+    },
+  ];
+
+  const $ = (id) => document.getElementById(id);
+  const params = new URLSearchParams(location.search);
+  const promoId = params.get("id");
+
+  // ---------- Time helpers ----------
+  const thTimeToMs = (str) =>
+    new Date(str.replace(" ", "T") + ":00+07:00").getTime();
+
+  const nowTHms = () =>
+    new Date(new Date().toLocaleString("en-US", {
+      timeZone: "Asia/Bangkok"
+    })).getTime();
+
+  const isActive = (p, nowMs) =>
+    nowMs >= thTimeToMs(p.start) && nowMs <= thTimeToMs(p.end);
+
+  // ---------- Toast ----------
+  function showToast(text){
+    const t = $("toast");
+    if (!t) return;
+    t.textContent = text;
+    t.classList.add("show");
+    clearTimeout(showToast._tm);
+    showToast._tm = setTimeout(() => t.classList.remove("show"), 1200);
+  }
+
+  // ---------- Hide ----------
+  function hideAll(){
+    document.querySelectorAll(".promoCard").forEach(el => el.hidden = true);
+    ["promoList","promoEmpty","promoError"].forEach(id=>{
+      const el = $(id);
+      if (el) el.hidden = true;
+    });
+  }
+
+  // ---------- Bind buttons ----------
+  document.querySelectorAll(".promoCard").forEach(card => {
+    const btnShare = card.querySelector(".btnShare");
+    const btnCopy  = card.querySelector(".btnCopy");
+
+    const getTitle = () =>
+      card.querySelector(".promoTitle")?.textContent?.trim() || "Promotion";
+
+    btnShare?.addEventListener("click", async () => {
+      const url = location.href;
+      const title = getTitle();
+
+      if (navigator.share) {
+        try { await navigator.share({ title, url }); } catch {}
+      } else {
+        await navigator.clipboard.writeText(url);
+        showToast("คัดลอกลิงก์แล้ว");
+      }
+    });
+
+    btnCopy?.addEventListener("click", async () => {
+      await navigator.clipboard.writeText(location.href);
+      showToast("คัดลอกลิงก์แล้ว");
+    });
+  });
+
+  // ---------- Render ----------
+  function renderDetail(p){
+    hideAll();
+    const card = $(p.id);
+    if (!card) {
+      $("promoError")?.removeAttribute("hidden");
+      return;
+    }
+
+    card.hidden = false;
+    $("pageTitle").textContent = p.title;
+
+    card.querySelector(".promoImg").src = p.imageSrc;
+    card.querySelector(".promoTitle").textContent = p.title;
+
+    const lines = p.detail.split("\n");
+    card.querySelectorAll(".promoDetail").forEach((el,i)=>{
+      el.textContent = lines[i] || "";
+      el.hidden = !lines[i];
+    });
+  }
+
+  function renderList(list){
+    hideAll();
+    $("pageTitle").textContent = "PROMOTIONS";
+
+    if (!list.length){
+      $("promoEmpty")?.removeAttribute("hidden");
+      return;
+    }
+
+    const wrap = $("listWrap");
+    $("promoList").hidden = false;
+    wrap.innerHTML = "";
+
+    list.forEach(p=>{
+      const a = document.createElement("a");
+      a.href = `promotion.html?id=${p.id}`;
+      a.className = "promoItem";
+      a.innerHTML = `
+        <img class="promoThumb" src="${p.imageSrc}" alt="">
+        <div class="promoMeta">
+          <div class="promoName">${p.title}</div>
+          <div class="promoHint">แตะเพื่อดูรายละเอียด</div>
+        </div>
+        <div class="promoGo">›</div>
+      `;
+      wrap.appendChild(a);
+    });
+  }
+
+  // ---------- Main ----------
+  const nowMs = nowTHms();
+
+  if (promoId){
+    const promo = PROMOTIONS.find(p => p.id === promoId);
+    promo ? renderDetail(promo) : $("promoError")?.removeAttribute("hidden");
+  } else {
+    renderList(PROMOTIONS.filter(p => isActive(p, nowMs)));
+  }
+}
+
+// init
+initPromotionPage();
+

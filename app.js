@@ -400,7 +400,7 @@ const PROMOTIONS = [
   {
     id: "a1",
     title: "โปรโมชั่นสำหรับสมาชิก",
-    imageSrc: "images/pro-feb/1.jpg",
+    imageSrc: "images/pro-feb/1.webp",
     lines: [
       "สมัครสมาชิกใหม่วันนี้ ลดทันที 10% ต่อใบเสร็จ",
       "สำหรับสมาชิกเดิม ลดทันที 5% ต่อใบเสร็จ",
@@ -412,7 +412,7 @@ const PROMOTIONS = [
   {
     id: "a2",
     title: "โปรโมชั่นเดือนกุมภาพันธ์",
-    imageSrc: "images/pro-feb/2.jpg",
+    imageSrc: "images/pro-feb/2.webp",
     lines: [
       "ทานอาหารครบ 1,200 บาท",
       "รับฟรี ซาลาเปาส้ม",
@@ -424,7 +424,7 @@ const PROMOTIONS = [
   {
     id: "a3",
     title: "โปรโมชั่นวันวาเลนไทน์",
-    imageSrc: "images/pro-feb/3.jpg",
+    imageSrc: "images/pro-feb/3.webp",
     lines: [
       "มาถึงคู่รักหรือครอบครัวฟรี ซาลาเปารูปหัวใจไส้สตรอว์เบอร์รี่",
       "ระยะเวลา 13 - 15 กุมภาพันธ์นี้ เท่านั้น",
@@ -435,7 +435,7 @@ const PROMOTIONS = [
   {
     id: "a4",
     title: "จับอั่งเปาฟรี!",
-    imageSrc: "images/pro-feb/4.jpg",
+    imageSrc: "images/pro-feb/4.webp",
     lines: [
       "เมื่อทานอาหารครบ 3,000 บาท",
       "รับฟรีอั่งเปาส่วนลด",
